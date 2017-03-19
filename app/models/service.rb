@@ -35,14 +35,14 @@ class Service < ApplicationRecord
   def connection_string
     case image.to_sym
     when :postgres
-      "postgres://postgres:#{password}@#{ENV['HOST']}:#{port}"
+      "postgres://postgres:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
     end
   end
 
   def connection_command
     case image.to_sym
     when :postgres
-      "PGPASSWORD='#{password}' psql -U postgres -h #{ENV['HOST']} -p #{port}"
+      "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U postgres -h #{ENV['HOST']} -p #{port}"
     end
   end
 
