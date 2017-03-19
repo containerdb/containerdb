@@ -12,13 +12,18 @@
 
 ActiveRecord::Schema.define(version: 20170319031513) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
+
   create_table "services", force: :cascade do |t|
+    t.string   "type"
     t.string   "image"
     t.string   "container_id"
-    t.string   "password"
+    t.hstore   "environment_variables"
     t.integer  "port"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
 end
