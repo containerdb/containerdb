@@ -47,7 +47,7 @@ class Service < ApplicationRecord
 
   # @todo handle collisions
   def assign_port
-    self.port ||= rand(99999)
+    self.port ||= (rand(65000 - 1024) + 1024)
   end
 
   def assign_password
