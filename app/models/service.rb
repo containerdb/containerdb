@@ -7,13 +7,10 @@ class Service < ApplicationRecord
   after_initialize :assign_port, :assign_password
 
   def container
-    # @note tmp
-    Docker.url = "tcp://#{docker_host}:#{docker_port}"
-
     if container_id.blank?
       # Create the Docker container
       container = Docker::Container.create(
-        'name' => "#{image}-#{Time.now.to_i}",
+        'name' => "#{image}-#{id}",
         'Image' => image,
         'Env' => container_env,
         'ExposedPorts' => { "#{container_port}/tcp" => {} },
@@ -35,16 +32,6 @@ class Service < ApplicationRecord
     end
   end
 
-  # @note tmp
-  def docker_host
-    '127.0.0.1'
-  end
-
-  # @note tmp
-  def docker_port
-    '4243'
-  end
-
   # @todo handle collisions
   def assign_port
     self.port ||= (rand(65000 - 1024) + 1024)
@@ -57,14 +44,14 @@ class Service < ApplicationRecord
   def connection_string
     case image.to_sym
     when :postgres
-      "postgres://postgres:#{password}@#{docker_host}:#{port}"
+      "postgres://postgres:#{password}@#{ENV['HOST']}:#{port}"
     end
   end
 
   def connection_command
     case image.to_sym
     when :postgres
-      "PGPASSWORD='#{password}' psql -U postgres -h #{docker_host} -p #{port}"
+      "PGPASSWORD='#{password}' psql -U postgres -h #{ENV['HOST']} -p #{port}"
     end
   end
 

@@ -53,6 +53,10 @@ GEM
     docker-api (1.33.2)
       excon (>= 0.38.0)
       json
+    dotenv (2.2.0)
+    dotenv-rails (2.2.0)
+      dotenv (= 2.2.0)
+      railties (>= 3.2, < 5.1)
     erubis (2.7.0)
     excon (0.55.0)
     execjs (2.7.0)
@@ -162,6 +166,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
   docker-api
+  dotenv-rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
