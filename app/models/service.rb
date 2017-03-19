@@ -46,6 +46,8 @@ class Service < ApplicationRecord
     end
   end
 
+  protected
+
   def container_port
     case image.to_sym
     when :postgres
@@ -56,8 +58,6 @@ class Service < ApplicationRecord
   def container_env
     self.environment_variables.map {|key, value| "#{key}='#{value}'" }
   end
-
-  protected
 
   # @todo handle collisions
   def assign_port
