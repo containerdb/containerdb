@@ -17,13 +17,12 @@ ActiveRecord::Schema.define(version: 20170319031513) do
   enable_extension "hstore"
 
   create_table "services", force: :cascade do |t|
-    t.string   "type"
     t.string   "image"
     t.string   "container_id"
-    t.hstore   "environment_variables"
+    t.hstore   "environment_variables", default: {}
     t.integer  "port"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
 end

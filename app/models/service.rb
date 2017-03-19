@@ -1,10 +1,10 @@
 class Service < ApplicationRecord
 
   validates :port, uniqueness: true, presence: true
-  validates :password, presence: true
   validates :image, presence: true
+  validate :validate_environment_variables
 
-  after_initialize :assign_port, :assign_password
+  after_initialize :assign_port, :assign_environment_variables
 
   def container
     if container_id.blank?
@@ -32,15 +32,6 @@ class Service < ApplicationRecord
     end
   end
 
-  # @todo handle collisions
-  def assign_port
-    self.port ||= (rand(65000 - 1024) + 1024)
-  end
-
-  def assign_password
-    self.password ||= SecureRandom.hex
-  end
-
   def connection_string
     case image.to_sym
     when :postgres
@@ -63,9 +54,39 @@ class Service < ApplicationRecord
   end
 
   def container_env
+    self.environment_variables.map {|key, value| "#{key}='#{value}'" }
+  end
+
+  protected
+
+  # @todo handle collisions
+  def assign_port
+    self.port ||= (rand(65000 - 1024) + 1024)
+  end
+
+  def assign_environment_variables
+    self.environment_variables = self.default_environment_variables.merge(self.environment_variables)
+  end
+
+  def validate_environment_variables
+    required_environment_variables.each do |variable|
+      errors.add(:environment_variables, "#{variable} is required") unless environment_variables[variable].present?
+    end
+  end
+
+  def required_environment_variables
     case image.to_sym
     when :postgres
-      ["POSTGRES_PASSWORD=#{password}"]
+      ['POSTGRES_PASSWORD']
+    end
+  end
+
+  def default_environment_variables
+    case image.to_sym
+    when :postgres
+      {
+        'POSTGRES_PASSWORD' => nil
+      }
     end
   end
 end
