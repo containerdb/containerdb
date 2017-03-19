@@ -6,28 +6,33 @@ class Service < ApplicationRecord
 
   after_initialize :assign_port, :assign_password
 
-  def create_container
+  def container
     # @note tmp
-    Docker.url = "#{docker_host}:#{docker_port}"
+    Docker.url = "tcp://#{docker_host}:#{docker_port}"
 
-    # Create the Docker container
-    container = Docker::Container.create(
-      'name' => "#{image}-#{Time.now.to_i}",
-      'Image' => image,
-      'Env' => container_env,
-      'ExposedPorts' => { "#{container_port}/tcp" => {} },
-      'HostConfig' => {
-        'PortBindings' => {
-          "#{container_port}/tcp" => [{ 'HostPort' => port.to_s }]
+    if container_id.blank?
+      # Create the Docker container
+      container = Docker::Container.create(
+        'name' => "#{image}-#{Time.now.to_i}",
+        'Image' => image,
+        'Env' => container_env,
+        'ExposedPorts' => { "#{container_port}/tcp" => {} },
+        'HostConfig' => {
+          'PortBindings' => {
+            "#{container_port}/tcp" => [{ 'HostPort' => port.to_s }]
+          }
         }
-      }
-    )
+      )
 
-    # Start the container
-    container.start
+      # Start the container
+      container.start
 
-    # Track the container ID so we can destroy it later
-    self.update(container_id: container.id)
+      # Track the container ID so we can destroy it later
+      self.update(container_id: container.id)
+      container
+    else
+      Docker::Container.get(container_id)
+    end
   end
 
   # @note tmp
