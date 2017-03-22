@@ -1,7 +1,7 @@
 class ServicesController < ApplicationController
 
   def index
-    @services = Service.all
+    @services = Service.all.order(created_at: :desc)
   end
 
   def new

@@ -1,4 +1,6 @@
-<%= form_for @service, url: {action: :create}, html: {class: "form"} do |f| %>
-  <%= f.text_field :image %>
+<h1 class="lead">Select a Service</h1>
+
+<%= bootstrap_form_for @service, url: {action: :create} do |f| %>
+  <%= f.select :image, *[Service::IMAGES] %>
   <%= f.submit "Create" %>
 <% end %>
