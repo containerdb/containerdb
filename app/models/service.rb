@@ -1,7 +1,9 @@
 class Service < ApplicationRecord
 
+  IMAGES = ['tutum/redis', 'postgres']
+
   validates :port, uniqueness: true, presence: true
-  validates :image, presence: true
+  validates :image, presence: true, inclusion: { in: IMAGES }
   validate :validate_environment_variables
 
   after_initialize :assign_port, :assign_environment_variables
@@ -10,7 +12,7 @@ class Service < ApplicationRecord
     if container_id.blank?
       # Create the Docker container
       container = Docker::Container.create(
-        'name' => "#{image}-#{id}",
+        'name' => "#{image.parameterize}-#{id}",
         'Image' => image,
         'Env' => container_env,
         'ExposedPorts' => { "#{container_port}/tcp" => {} },
@@ -32,30 +34,30 @@ class Service < ApplicationRecord
   end
 
   def connection_string
-    case image.to_sym
-    when :postgres
+    case image.to_s
+    when 'postgres'
       "postgres://#{environment_variables['POSTGRES_USER']}:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
-    when :redis
-      "redis://#{ENV['HOST']}:#{port}"
+    when 'tutum/redis'
+      "redis://:#{environment_variables['REDIS_PASS']}#{ENV['HOST']}:#{port}"
     end
   end
 
   def connection_command
-    case image.to_sym
-    when :postgres
+    case image.to_s
+    when 'postgres'
       "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U #{environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{port}"
-    when :redis
-      "redis-cli -h #{ENV['HOST']} -p #{port}"
+    when 'tutum/redis'
+      "redis-cli -h #{ENV['HOST']} -a #{environment_variables['REDIS_PASS']} -p #{port}"
     end
   end
 
   protected
 
   def container_port
-    case image.to_sym
-    when :postgres
+    case image.to_s
+    when 'postgres'
       5432
-    when :redis
+    when 'tutum/redis'
       6379
     end
   end
@@ -80,20 +82,26 @@ class Service < ApplicationRecord
   end
 
   def required_environment_variables
-    case image.to_sym
-    when :postgres
+    case image.to_s
+    when 'postgres'
       ['POSTGRES_PASSWORD', 'POSTGRES_USER']
+    when 'tutum/redis'
+      ['REDIS_PASS']
     else
       []
     end
   end
 
   def default_environment_variables
-    case image.to_sym
-    when :postgres
+    case image.to_s
+    when 'postgres'
       {
         'POSTGRES_PASSWORD' => SecureRandom.hex,
         'POSTGRES_USER' => 'postgres'
+      }
+    when 'tutum/redis'
+      {
+        'REDIS_PASS' => SecureRandom.hex
       }
     else
       {}
