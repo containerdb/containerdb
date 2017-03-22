@@ -1,6 +1,6 @@
 class Service < ApplicationRecord
 
-  IMAGES = ['tutum/redis', 'postgres']
+  IMAGES = ['tutum/redis', 'postgres', 'mysql']
 
   validates :port, uniqueness: true, presence: true
   validates :image, presence: true, inclusion: { in: IMAGES }
@@ -37,6 +37,8 @@ class Service < ApplicationRecord
     case image.to_s
     when 'postgres'
       "postgres://#{environment_variables['POSTGRES_USER']}:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
+    when 'mysql'
+      "mysql://root:#{environment_variables['MYSQL_ROOT_PASSWORD']}@#{ENV['HOST']}:#{port}"
     when 'tutum/redis'
       "redis://:#{environment_variables['REDIS_PASS']}#{ENV['HOST']}:#{port}"
     end
@@ -46,6 +48,8 @@ class Service < ApplicationRecord
     case image.to_s
     when 'postgres'
       "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U #{environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{port}"
+    when 'mysql'
+      "mysql -h#{ENV['HOST']} -uroot -p#{environment_variables['MYSQL_ROOT_PASSWORD']} -P#{port}"
     when 'tutum/redis'
       "redis-cli -h #{ENV['HOST']} -a #{environment_variables['REDIS_PASS']} -p #{port}"
     end
@@ -57,6 +61,8 @@ class Service < ApplicationRecord
     case image.to_s
     when 'postgres'
       5432
+    when 'mysql'
+      3306
     when 'tutum/redis'
       6379
     end
@@ -85,6 +91,8 @@ class Service < ApplicationRecord
     case image.to_s
     when 'postgres'
       ['POSTGRES_PASSWORD', 'POSTGRES_USER']
+    when 'mysql'
+      ['MYSQL_ROOT_PASSWORD']
     when 'tutum/redis'
       ['REDIS_PASS']
     else
@@ -102,6 +110,10 @@ class Service < ApplicationRecord
     when 'tutum/redis'
       {
         'REDIS_PASS' => SecureRandom.hex
+      }
+    when 'mysql'
+      {
+        'MYSQL_ROOT_PASSWORD' => SecureRandom.hex
       }
     else
       {}
