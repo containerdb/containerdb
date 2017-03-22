@@ -21,7 +21,6 @@ class Service < ApplicationRecord
         }
       )
 
-      # Start the container
       container.start
 
       # Track the container ID so we can destroy it later
@@ -35,14 +34,14 @@ class Service < ApplicationRecord
   def connection_string
     case image.to_sym
     when :postgres
-      "postgres://postgres:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
+      "postgres://#{environment_variables['POSTGRES_USER']}:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
     end
   end
 
   def connection_command
     case image.to_sym
     when :postgres
-      "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U postgres -h #{ENV['HOST']} -p #{port}"
+      "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U #{environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{port}"
     end
   end
 
@@ -56,7 +55,7 @@ class Service < ApplicationRecord
   end
 
   def container_env
-    self.environment_variables.map {|key, value| "#{key}='#{value}'" }
+    self.environment_variables.map {|key, value| "#{key}=#{value}" }
   end
 
   # @todo handle collisions
@@ -77,7 +76,7 @@ class Service < ApplicationRecord
   def required_environment_variables
     case image.to_sym
     when :postgres
-      ['POSTGRES_PASSWORD']
+      ['POSTGRES_PASSWORD', 'POSTGRES_USER']
     end
   end
 
@@ -85,7 +84,8 @@ class Service < ApplicationRecord
     case image.to_sym
     when :postgres
       {
-        'POSTGRES_PASSWORD' => nil
+        'POSTGRES_PASSWORD' => SecureRandom.hex,
+        'POSTGRES_USER' => 'postgres'
       }
     end
   end

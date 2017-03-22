@@ -1,0 +1,19 @@
+<table class="table">
+  <tr>
+    <th>Service</th>
+    <th>Image</th>
+    <th>Command</th>
+    <th>Container</th>
+  </tr>
+
+  <% @services.each do |service| %>
+    <tr>
+      <td><%= service.id %></td>
+      <td><%= service.image %></td>
+      <td><code><%= service.connection_command %></code></td>
+      <td><%= service.container_id %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Add Service', new_service_path, class: 'btn btn-primary' %>

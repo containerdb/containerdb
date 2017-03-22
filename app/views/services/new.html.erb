@@ -1,0 +1,4 @@
+<%= form_for @service, url: {action: :create}, html: {class: "form"} do |f| %>
+  <%= f.text_field :image %>
+  <%= f.submit "Create" %>
+<% end %>
