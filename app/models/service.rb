@@ -35,6 +35,8 @@ class Service < ApplicationRecord
     case image.to_sym
     when :postgres
       "postgres://#{environment_variables['POSTGRES_USER']}:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
+    when :redis
+      "redis://#{ENV['HOST']}:#{port}"
     end
   end
 
@@ -42,6 +44,8 @@ class Service < ApplicationRecord
     case image.to_sym
     when :postgres
       "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U #{environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{port}"
+    when :redis
+      "redis-cli -h #{ENV['HOST']} -p #{port}"
     end
   end
 
@@ -51,6 +55,8 @@ class Service < ApplicationRecord
     case image.to_sym
     when :postgres
       5432
+    when :redis
+      6379
     end
   end
 
@@ -77,6 +83,8 @@ class Service < ApplicationRecord
     case image.to_sym
     when :postgres
       ['POSTGRES_PASSWORD', 'POSTGRES_USER']
+    else
+      []
     end
   end
 
@@ -87,6 +95,8 @@ class Service < ApplicationRecord
         'POSTGRES_PASSWORD' => SecureRandom.hex,
         'POSTGRES_USER' => 'postgres'
       }
+    else
+      {}
     end
   end
 end
