@@ -27,7 +27,7 @@ class Service < ApplicationRecord
           }
         }
       )
-      
+
       # Track the container ID so we can destroy it later
       self.update(container_id: container.id)
       container
@@ -37,23 +37,23 @@ class Service < ApplicationRecord
   end
 
   def connection_string
-    case image.to_s
+    case service_type.to_s
     when 'postgres'
       "postgres://#{environment_variables['POSTGRES_USER']}:#{environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{port}"
     when 'mysql'
       "mysql://root:#{environment_variables['MYSQL_ROOT_PASSWORD']}@#{ENV['HOST']}:#{port}"
-    when 'tutum/redis'
+    when 'redis'
       "redis://:#{environment_variables['REDIS_PASS']}#{ENV['HOST']}:#{port}"
     end
   end
 
   def connection_command
-    case image.to_s
+    case service_type.to_s
     when 'postgres'
       "PGPASSWORD='#{environment_variables['POSTGRES_PASSWORD']}' psql -U #{environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{port}"
     when 'mysql'
       "mysql -h#{ENV['HOST']} -uroot -p#{environment_variables['MYSQL_ROOT_PASSWORD']} -P#{port}"
-    when 'tutum/redis'
+    when 'redis'
       "redis-cli -h #{ENV['HOST']} -a #{environment_variables['REDIS_PASS']} -p #{port}"
     end
   end
@@ -61,12 +61,12 @@ class Service < ApplicationRecord
   protected
 
   def container_port
-    case image.to_s
+    case service_type.to_s
     when 'postgres'
       5432
     when 'mysql'
       3306
-    when 'tutum/redis'
+    when 'redis'
       6379
     end
   end
@@ -95,12 +95,12 @@ class Service < ApplicationRecord
   end
 
   def required_environment_variables
-    case image.to_s
+    case service_type.to_s
     when 'postgres'
       ['POSTGRES_PASSWORD', 'POSTGRES_USER']
     when 'mysql'
       ['MYSQL_ROOT_PASSWORD']
-    when 'tutum/redis'
+    when 'redis'
       ['REDIS_PASS']
     else
       []
@@ -108,13 +108,13 @@ class Service < ApplicationRecord
   end
 
   def default_environment_variables
-    case image.to_s
+    case service_type.to_s
     when 'postgres'
       {
         'POSTGRES_PASSWORD' => SecureRandom.hex,
         'POSTGRES_USER' => 'postgres'
       }
-    when 'tutum/redis'
+    when 'redis'
       {
         'REDIS_PASS' => SecureRandom.hex
       }
