@@ -4,7 +4,6 @@
   <% Service::SERVICES.each do |service, image| %>
     <tr>
       <td><%= link_to service, new_service_path(service: service) %></td>
-      <td><%= image %>:latest</td>
     </tr>
   <% end %>
 </table>
