@@ -6,12 +6,13 @@ class Service < ApplicationRecord
     mysql: 'mysql'
   }
 
+  validates :name, presence: true
   validates :port, uniqueness: true, presence: true
-  validates :service_type, presence: true, inclusion: { in: SERVICES.values }
-  validates :image, presence: true, inclusion: { in: SERVICES.keys }
+  validates :service_type, presence: true, inclusion: { in: Service::SERVICES.keys.map(&:to_s) }
+  validates :image, presence: true, inclusion: { in: Service::SERVICES.values }
   validate :validate_environment_variables
 
-  after_initialize :assign_port, :assign_environment_variables
+  after_initialize :assign_port, :assign_environment_variables, :assign_image
 
   def container
     if container_id.blank?
@@ -81,7 +82,7 @@ class Service < ApplicationRecord
   end
 
   def assign_image
-    self.image ||= self::SERVICES[self.service_type]
+    self.image ||= Service::SERVICES[self.service_type.to_sym]
   end
 
   def assign_environment_variables

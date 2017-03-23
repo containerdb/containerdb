@@ -1,7 +1,6 @@
-<h1 class="lead">Select a Service</h1>
+<h1 class="lead"><%= link_to 'Services', services_path %> > Create a <%= @service.service_type %> Service</h1>
 
-<%= bootstrap_form_for @service, url: {action: :create} do |f| %>
-  <%= f.text_field :name %>
-  <%= f.select :service_type, Service::SERVICES.keys %>
-  <%= f.submit "Create" %>
+<%= simple_form_for @service do |f| %>
+  <%= f.input :name %>
+  <%= f.button :submit %>
 <% end %>

@@ -1,0 +1,10 @@
+<h1 class="lead"><%= link_to 'Services', services_path %> > Choose a Service</h1>
+
+<table class="table table-striped">
+  <% Service::SERVICES.each do |service, image| %>
+    <tr>
+      <td><%= link_to service, new_service_path(service: service) %></td>
+      <td><%= image %>:latest</td>
+    </tr>
+  <% end %>
+</table>

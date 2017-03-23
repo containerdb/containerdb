@@ -5,7 +5,8 @@ class ServicesController < ApplicationController
   end
 
   def new
-    @service = Service.new(service_type: :postgres)
+    return redirect_to choose_services_path unless params[:service].present?
+    @service = Service.new(service_type: params[:service])
   end
 
   def create
@@ -13,6 +14,9 @@ class ServicesController < ApplicationController
     if @service.save
       @service.container.start
       redirect_to services_path
+    else
+      raise @service.errors.full_messages.to_yaml
+      render :new
     end
   end
 end

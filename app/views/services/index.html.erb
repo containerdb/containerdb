@@ -1,4 +1,4 @@
-<h1 class="lead">Services</h1>
+<h1 class="lead">Services <%= link_to '+ Create', choose_services_path, class: 'btn btn-primary btn-xs' %></h1>
 
 <% if @services.any? %>
   <table class="table">
@@ -13,13 +13,30 @@
       <tr>
         <td><%= service.name %></td>
         <td><%= service.service_type %></td>
-        <td><code><%= service.connection_command %></code></td>
+        <td><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">View Connection Details</button></td>
         <td><%= service.container_id.to_s.first(12) %></td>
       </tr>
+
+      <!-- Modal -->
+      <div class="modal fade" id="connection-<%= service.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Connection Details for <%= service.name %></h4>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for service do |f| %>
+                <%= f.input :connection_command, readonly: true %>
+                <%= f.input :connection_string, readonly: true %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <% end %>
   </table>
 <% else %>
   <p class="alert alert-info">You have not launched any services yet</p>
 <% end %>
-
-<%= link_to 'Add Service', new_service_path, class: 'btn btn-primary' %>
