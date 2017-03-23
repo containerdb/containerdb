@@ -15,6 +15,7 @@
         <td><%= service.service_type %></td>
         <td><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">View Connection Details</button></td>
         <td><%= service.container_id.to_s.first(12) %></td>
+        <td><%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
 
       <!-- Modal -->

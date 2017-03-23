@@ -13,6 +13,7 @@ class Service < ApplicationRecord
   validate :validate_environment_variables
 
   after_initialize :assign_port, :assign_environment_variables, :assign_image
+  before_destroy :destroy_container
 
   def container
     if container_id.blank?
@@ -35,6 +36,15 @@ class Service < ApplicationRecord
     else
       Docker::Container.get(container_id)
     end
+  end
+
+  def destroy_container
+    if container_id.present?
+      container.kill!
+      container.delete
+    end
+  rescue Docker::Error::NotFoundError
+    nil
   end
 
   def connection_string
