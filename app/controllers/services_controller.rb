@@ -9,7 +9,7 @@ class ServicesController < ApplicationController
     @service.destroy
     redirect_to :back
   end
-  
+
   def new
     return redirect_to choose_services_path unless params[:service].present?
     @service = Service.new(service_type: params[:service])
@@ -21,7 +21,6 @@ class ServicesController < ApplicationController
       @service.container.start
       redirect_to services_path
     else
-      raise @service.errors.full_messages.to_yaml
       render :new
     end
   end

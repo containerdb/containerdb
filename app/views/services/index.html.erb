@@ -1,12 +1,16 @@
-<h1 class="lead">Services <%= link_to '+ Create', choose_services_path, class: 'btn btn-primary btn-xs' %></h1>
+<ol class="breadcrumb">
+  <li>Services</li>
+  <li>List</li>
+</ol>
 
 <% if @services.any? %>
-  <table class="table">
+  <table class="table table-striped">
     <tr>
       <th>Service</th>
       <th>Image</th>
       <th>Command</th>
       <th>Container</th>
+      <th>Destroy</th>
     </tr>
 
     <% @services.each do |service| %>
@@ -41,3 +45,5 @@
 <% else %>
   <p class="alert alert-info">You have not launched any services yet</p>
 <% end %>
+
+<%= link_to '+ Create', choose_services_path, class: 'btn btn-primary btn-xs' %>

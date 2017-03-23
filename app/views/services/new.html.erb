@@ -1,6 +1,9 @@
-<h1 class="lead"><%= link_to 'Services', services_path %> > Create a <%= @service.service_type %> Service</h1>
+<ol class="breadcrumb">
+  <li><%= link_to 'Services', services_path %></li>
+  <li class="active">Create a <%= @service.service_type %> Service</li>
+</ol>
 
-<%= simple_form_for @service do |f| %>
+<%= simple_form_for @service, html: { class: 'well' } do |f| %>
   <%= f.input :service_type, as: :hidden %>
   <%= f.input :image, as: :hidden %>
   <%= f.input :name %>

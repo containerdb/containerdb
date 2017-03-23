@@ -1,9 +1,17 @@
-<h1 class="lead"><%= link_to 'Services', services_path %> > Choose a Service</h1>
+<ol class="breadcrumb">
+  <li><%= link_to 'Services', services_path %></li>
+  <li class="active">Choose a Service</li>
+</ol>
 
-<table class="table table-striped">
+<table class="table table-striped well">
+  <tr>
+    <th>Service</th>
+    <th>Image</th>
+  </tr>
   <% Service::SERVICES.each do |service, image| %>
     <tr>
       <td><%= link_to service, new_service_path(service: service) %></td>
+      <td><%= image %>:latest</td>
     </tr>
   <% end %>
 </table>

@@ -13,6 +13,7 @@ gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'simple_form'
+gem "twitter-bootstrap-rails"
 
 gem 'docker-api'
 
@@ -27,5 +28,3 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'dotenv-rails', require: 'dotenv/rails-now'
 end
-
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
