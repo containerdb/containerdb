@@ -1,9 +1,14 @@
 class Service < ApplicationRecord
 
-  IMAGES = ['tutum/redis', 'postgres', 'mysql']
+  SERVICES = {
+    redis: 'tutum/redis',
+    postgres: 'postgres',
+    mysql: 'mysql'
+  }
 
   validates :port, uniqueness: true, presence: true
-  validates :image, presence: true, inclusion: { in: IMAGES }
+  validates :service_type, presence: true, inclusion: { in: SERVICES.values }
+  validates :image, presence: true, inclusion: { in: SERVICES.keys }
   validate :validate_environment_variables
 
   after_initialize :assign_port, :assign_environment_variables
@@ -22,9 +27,7 @@ class Service < ApplicationRecord
           }
         }
       )
-
-      container.start
-
+      
       # Track the container ID so we can destroy it later
       self.update(container_id: container.id)
       container
@@ -75,6 +78,10 @@ class Service < ApplicationRecord
   # @todo handle collisions
   def assign_port
     self.port ||= (rand(65000 - 1024) + 1024)
+  end
+
+  def assign_image
+    self.image ||= self::SERVICES[self.service_type]
   end
 
   def assign_environment_variables

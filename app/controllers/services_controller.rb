@@ -5,13 +5,13 @@ class ServicesController < ApplicationController
   end
 
   def new
-    @service = Service.new(image: :postgres)
+    @service = Service.new(service_type: :postgres)
   end
 
   def create
-    @service = Service.new(params.require(:service).permit(:image))
+    @service = Service.new(params.require(:service).permit(:service_type, :name))
     if @service.save
-      @service.container
+      @service.container.start
       redirect_to services_path
     end
   end

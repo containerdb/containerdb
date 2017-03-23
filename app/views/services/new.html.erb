@@ -1,6 +1,7 @@
 <h1 class="lead">Select a Service</h1>
 
 <%= bootstrap_form_for @service, url: {action: :create} do |f| %>
-  <%= f.select :image, *[Service::IMAGES] %>
+  <%= f.text_field :name %>
+  <%= f.select :service_type, Service::SERVICES.keys %>
   <%= f.submit "Create" %>
 <% end %>
