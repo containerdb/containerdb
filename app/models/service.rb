@@ -54,7 +54,7 @@ class Service < ApplicationRecord
     when 'mysql'
       "mysql://root:#{environment_variables['MYSQL_ROOT_PASSWORD']}@#{ENV['HOST']}:#{port}"
     when 'redis'
-      "redis://:#{environment_variables['REDIS_PASS']}#{ENV['HOST']}:#{port}"
+      "redis://:#{environment_variables['REDIS_PASS']}@#{ENV['HOST']}:#{port}"
     end
   end
 
