@@ -20,4 +20,8 @@ class MysqlService < BaseService
   def container_port
     3306
   end
+
+  def backup_command
+    "mysqldump --all-databases --host=#{ENV['HOST']} --port=#{service.port} --user=root --password=#{service.environment_variables['MYSQL_ROOT_PASSWORD']}"
+  end
 end

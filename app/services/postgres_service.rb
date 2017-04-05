@@ -21,4 +21,8 @@ class PostgresService < BaseService
   def container_port
     5432
   end
+
+  def backup_command
+    "PGPASSWORD='#{service.environment_variables['POSTGRES_PASSWORD']}' pg_dump -h #{ENV['HOST']} -p #{service.port} -U #{service.environment_variables['POSTGRES_USER']}"
+  end
 end

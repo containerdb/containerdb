@@ -17,4 +17,7 @@ class BaseService
   alias_method :connection_string,                :not_implemented!
   alias_method :connection_command,               :not_implemented!
   alias_method :container_port,                   :not_implemented!
+
+  # Backup/Restore
+  alias_method :backup_command,                   :not_implemented!
 end
