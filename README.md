@@ -2,6 +2,12 @@
 
 Easily create and manage databases instantly, perfect for prototying and running small apps.
 
+### Install
+
+```
+curl https://raw.githubusercontent.com/scottrobertson/prototyper/master/install.sh | sudo bash
+```
+
 ### Databases
 
 - MySQL
