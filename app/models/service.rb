@@ -59,6 +59,10 @@ class Service < ApplicationRecord
     service.backup_command
   end
 
+  def restore_command
+    service.restore_command
+  end
+
   def can_backup?
     backup_command.present?
   rescue NotImplementedError

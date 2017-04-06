@@ -25,4 +25,8 @@ class PostgresService < BaseService
   def backup_command
     "PGPASSWORD='#{service.environment_variables['POSTGRES_PASSWORD']}' pg_dump -h #{ENV['HOST']} -p #{service.port} -U #{service.environment_variables['POSTGRES_USER']} > #{backup_file_name}"
   end
+
+  def restore_command
+    "PGPASSWORD='#{service.environment_variables['POSTGRES_PASSWORD']}' psql -U #{service.environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{service.port} < #{backup_file_name}"
+  end
 end
