@@ -8,7 +8,6 @@
     <tr>
       <th>Service</th>
       <th>Image</th>
-      <th>Command</th>
       <th>Container</th>
       <th>Actions</th>
     </tr>
@@ -17,14 +16,14 @@
       <tr>
         <td><%= service.name %></td>
         <td><%= service.service_type %></td>
-        <td><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">View Connection Details</button></td>
         <td><%= service.container_id.to_s.first(12) %></td>
         <td>
-          <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
+          <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">Connect</button>
           <% if service.can_backup? %>
             <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Backup</button>
             <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Restore</button>
           <% end %>
+          <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
 
