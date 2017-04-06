@@ -20,4 +20,8 @@ class BaseService
 
   # Backup/Restore
   alias_method :backup_command,                   :not_implemented!
+
+  def backup_file_name
+    "backup-#{service.service_type}-#{service.name.parameterize}-#{Time.now.to_i}.backup"
+  end
 end

@@ -55,6 +55,16 @@ class Service < ApplicationRecord
     service.connection_command
   end
 
+  def backup_command
+    service.backup_command
+  end
+
+  def can_backup?
+    backup_command.present?
+  rescue NotImplementedError
+    false
+  end
+
   protected
 
   def service

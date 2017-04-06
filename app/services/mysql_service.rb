@@ -22,6 +22,6 @@ class MysqlService < BaseService
   end
 
   def backup_command
-    "mysqldump --all-databases --host=#{ENV['HOST']} --port=#{service.port} --user=root --password=#{service.environment_variables['MYSQL_ROOT_PASSWORD']}"
+    "mysqldump --all-databases --host=#{ENV['HOST']} --port=#{service.port} --user=root --password=#{service.environment_variables['MYSQL_ROOT_PASSWORD']} > #{backup_file_name}"
   end
 end
