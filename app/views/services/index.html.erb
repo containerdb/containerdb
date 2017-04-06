@@ -22,7 +22,8 @@
         <td>
           <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
           <% if service.can_backup? %>
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Backup/Restore</button>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Backup</button>
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Restore</button>
           <% end %>
         </td>
       </tr>
