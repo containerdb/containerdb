@@ -1,24 +1,29 @@
-# README
+# Prototyper
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Easily create and manage databases instantly, perfect for prototying and running small apps.
 
-Things you may want to cover:
+### Install
 
-* Ruby version
+```
+curl https://raw.githubusercontent.com/scottrobertson/prototyper/master/install.sh | sudo bash
+```
 
-* System dependencies
+### Databases
 
-* Configuration
+- MySQL
+- Postgres
+- Redis
 
-* Database creation
+### Features
 
-* Database initialization
+- Instantly launch a database
+- Connect to the database from anywhere
+- Password protected databases
 
-* How to run the test suite
+### Roadmap
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Automated/Manual backups to Amazon S3 etc
+- Restore backups
+- Download backups
+- User managemement
+- Database clusters (maybe - long term)
