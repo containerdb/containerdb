@@ -1,11 +1,11 @@
-# Prototyper
+# Container DB
 
-Easily create and manage databases instantly, perfect for prototying and running small apps.
+Easily create and manage databases instantly, perfect for prototyping and running small apps.
 
 ### Install
 
 ```
-curl https://raw.githubusercontent.com/scottrobertson/prototyper/master/install.sh | sudo bash
+curl https://raw.githubusercontent.com/containerdb/containerdb/master/install.sh | sudo bash
 ```
 
 ### Databases
@@ -25,5 +25,5 @@ curl https://raw.githubusercontent.com/scottrobertson/prototyper/master/install.
 - Automated/Manual backups to Amazon S3 etc
 - Restore backups
 - Download backups
-- User managemement
+- User management
 - Database clusters (maybe - long term)

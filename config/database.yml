@@ -5,12 +5,12 @@ default: &default
 
 development:
   <<: *default
-  database: prototyper_development
+  database: containerdb_development
 
 test:
   <<: *default
-  database: prototyper_test
+  database: containerdb_test
 
 production:
   <<: *default
-  database: prototyper
+  database: containerdb
