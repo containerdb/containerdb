@@ -15,6 +15,8 @@ class Service < ApplicationRecord
   after_initialize :assign_port, :assign_environment_variables, :assign_image
   before_destroy :destroy_container
 
+  has_many :backups
+
   def container
     if container_id.blank?
       # Create the Docker container

@@ -20,7 +20,7 @@
         <td>
           <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">Connect</button>
           <% if service.can_backup? %>
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Backup</button>
+            <%= link_to 'Backups', service_backups_path(service), class: 'btn btn-info btn-xs' %>
           <% end %>
           <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
@@ -42,23 +42,6 @@
           </div>
         </div>
       </div>
-
-      <% if service.can_backup? %>
-        <div class="modal fade" id="backup-<%= service.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Backup <%= service.name %></h4>
-              </div>
-              <div class="modal-body">
-                <p class="alert alert-info">Soon</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-
     <% end %>
   </table>
 <% else %>
