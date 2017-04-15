@@ -16,7 +16,7 @@ if ! $installed; then
   echo 'Thanks...'
   echo ''
 
-  HOST_IP=`curl ipinfo.io/ip`
+  HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
   read -p "Enter Hostname: " -e -i $HOST_IP HOST_NAME
 fi
 
