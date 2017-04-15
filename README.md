@@ -1,6 +1,6 @@
 # Container DB
 
-Easily create and manage databases instantly, perfect for prototyping and running small apps.
+Create databases instantly, with automatic backups. Perfect for prototyping and running small apps.
 
 ![](http://d.pr/i/jyZn+)
 
