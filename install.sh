@@ -52,4 +52,4 @@ docker exec containerdb_app rails db:create db:migrate
 docker exec containerdb_app rails r "Service.create!(service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
 echo ''
 echo '...done'
-echo 'Visit http://$HOST_IP'
+echo "Visit http://$HOST_IP"
