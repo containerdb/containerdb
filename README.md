@@ -2,6 +2,8 @@
 
 Easily create and manage databases instantly, perfect for prototyping and running small apps.
 
+![](http://d.pr/i/jyZn+)
+
 ### Install
 
 ```
