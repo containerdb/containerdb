@@ -15,6 +15,9 @@ if ! $installed; then
   read -p 'AWS_BUCKET_NAME: ' AWS_BUCKET_NAME
   echo 'Thanks...'
   echo ''
+
+  HOST_IP=`curl ipinfo.io/ip`
+  read -p "Enter Hostname: " -e -i $HOST_IP HOST_NAME
 fi
 
 # @todo test these keys work
@@ -42,8 +45,6 @@ docker pull mysql
 docker pull tutum/redis
 echo ''
 
-HOST_IP=`curl ipinfo.io/ip` # Probably a better way to get our external IP, but this works for now
-
 if ! $installed; then
   echo 'Installing Container DB'
 
@@ -58,13 +59,13 @@ if ! $installed; then
   sleep 5 # @todo wait for the DB container to start
 
   # Create the app
-  DB_URL="postgres://$DB_USERNAME:$DB_PASSWORD@$HOST_IP:$DB_PORT"
+  DB_URL="postgres://$DB_USERNAME:$DB_PASSWORD@$HOST_NAME:$DB_PORT"
 
   sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN
   sudo containerdb config:set AWS_SECRET_KEY=$AWS_SECRET_KEY
   sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
   sudo containerdb config:set DATABASE_URL=$DB_URL
-  sudo containerdb config:set HOST=$HOST_IP
+  sudo containerdb config:set HOST=$HOST_NAME
   sudo containerdb scale web=1
 
   cat > /etc/nginx/sites-available/default <<EOF
@@ -91,4 +92,4 @@ fi
 
 echo ''
 echo '...done'
-echo "Visit http://$HOST_IP"
+echo "Visit http://$(sudo containerdb config:get HOST)"
