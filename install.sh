@@ -37,7 +37,7 @@ DB_CONTAINER_ID=`docker create --name $DB_CONTAINER_NAME -p $DB_PORT:5432 -e POS
 
 # Start the DB Container
 docker start $DB_CONTAINER_NAME
-# @todo wait for the DB container to start
+sleep 5 # @todo wait for the DB container to start
 
 # Create the app
 HOST_IP=`curl ipinfo.io/ip` # Probably a better way to get our external IP, but this works for now
