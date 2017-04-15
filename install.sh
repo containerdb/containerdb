@@ -29,14 +29,13 @@ echo ''
 
 echo 'Installing Container DB'
 # Create the Postgres Container
-DB_CONTAINER_NAME='containerdb_db'
 DB_PORT=8474
 DB_USERNAME='postgres'
 DB_PASSWORD=`pwgen 15 1`
-DB_CONTAINER_ID=`docker create --name $DB_CONTAINER_NAME -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres`
+DB_CONTAINER_ID=`docker create --name containerdb_db -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres`
 
 # Start the DB Container
-docker start $DB_CONTAINER_NAME
+docker start containerdb_db
 sleep 5 # @todo wait for the DB container to start
 
 # Create the app
