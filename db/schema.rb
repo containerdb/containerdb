@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170323093619) do
+ActiveRecord::Schema.define(version: 20170415171524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "backups", force: :cascade do |t|
+    t.integer  "service_id"
+    t.string   "file_name"
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "services", force: :cascade do |t|
     t.string   "image"

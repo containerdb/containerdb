@@ -55,16 +55,20 @@ class Service < ApplicationRecord
     service.connection_command
   end
 
-  def backup_command
-    service.backup_command
+  def backup_environment_variables
+    service.backup_environment_variables
   end
 
-  def restore_command
-    service.restore_command
+  def backup_script_path
+    service.backup_script_path
+  end
+
+  def backup_file_name
+    service.backup_file_name
   end
 
   def can_backup?
-    backup_command.present?
+    backup_environment_variables.present?
   rescue NotImplementedError
     false
   end

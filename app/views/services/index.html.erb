@@ -21,7 +21,6 @@
           <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">Connect</button>
           <% if service.can_backup? %>
             <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Backup</button>
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#backup-<%= service.id %>">Restore</button>
           <% end %>
           <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
@@ -50,16 +49,10 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Backup/Restore <%= service.name %></h4>
+                <h4 class="modal-title" id="myModalLabel">Backup <%= service.name %></h4>
               </div>
               <div class="modal-body">
-
-                <p class="alert alert-info">Until we get automated backups in place, here is a command to backup this database</p>
-
-                <%= simple_form_for service do |f| %>
-                  <%= f.input :backup_command, readonly: true %>
-                  <%= f.input :restore_command, readonly: true %>
-                <% end %>
+                <p class="alert alert-info">Soon</p>
               </div>
             </div>
           </div>

@@ -19,10 +19,11 @@ class BaseService
   alias_method :container_port,                   :not_implemented!
 
   # Backup/Restore
-  alias_method :backup_command,                   :not_implemented!
-  alias_method :restore_command,                  :not_implemented!
+  alias_method :backup_environment_variables,     :not_implemented!
+  alias_method :backup_script_path,               :not_implemented!
+  alias_method :backup_file_suffix,               :not_implemented!
 
   def backup_file_name
-    "backup-#{service.service_type}-#{service.name.parameterize}-#{Time.now.to_i}.backup"
+    "backup-#{service.service_type}-#{service.name.parameterize}-#{Time.now.to_i}.#{backup_file_suffix}"
   end
 end
