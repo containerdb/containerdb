@@ -11,7 +11,7 @@ class BackupJob < ApplicationJob
       FILE_NAME: file_name
     })
 
-    image = Docker::Image.get('backup-restore')
+    image = Docker::Image.get('containerdb/backup-restore')
     container = image.run("sh #{backup.service.backup_script_path}", { 'Env' => environment_variables.map {|key, value| "#{key}=#{value}" } })
 
     # @todo capture Docker::Error::TimeoutError
