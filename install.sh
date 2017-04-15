@@ -60,7 +60,11 @@ if ! $installed; then
   # Create the app
   DB_URL="postgres://$DB_USERNAME:$DB_PASSWORD@$HOST_IP:$DB_PORT"
 
-  sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN AWS_SECRET_KEY=$AWS_SECRET_KEY AWS_BUCKET_NAME=$AWS_BUCKET_NAME DATABASE_URL=$DB_URL HOST=$HOST_IP
+  sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN
+  sudo containerdb config:set AWS_SECRET_KEY=$AWS_SECRET_KEY
+  sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
+  sudo containerdb config:set DATABASE_URL=$DB_URL
+  sudo containerdb config:set HOST=$HOST_IP
   sudo containerdb scale web=1
 
   cat > /etc/nginx/sites-available/default <<EOF
