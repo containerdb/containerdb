@@ -21,7 +21,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 echo "deb https://deb.packager.io/gh/containerdb/containerdb xenial master" | sudo tee /etc/apt/sources.list.d/containerdb.list
 sudo apt-get update
-sudo apt-get install docker-ce pwgen containerdb -y
+sudo apt-get install docker-ce pwgen containerdb nginx -y
 echo ''
 
 # Pull the base images
@@ -53,6 +53,17 @@ if ! $INSTALLED; then
 
   sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN AWS_SECRET_KEY=$AWS_SECRET_KEY AWS_BUCKET_NAME=$AWS_BUCKET_NAME DATABASE_URL=$DB_URL HOST=$HOST_IP
   sudo containerdb scale web=1
+
+  cat > /etc/nginx/sites-available/default <<EOF
+  server {
+    listen          80;
+    location / {
+      proxy_pass      http://localhost:6000;
+    }
+  }
+  EOF
+
+  sudo service nginx restart
 
   sudo containerdb run rails db:create db:migrate
   sudo containerdb run rails r "Service.create!(service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
