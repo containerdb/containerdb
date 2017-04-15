@@ -2,7 +2,6 @@ class BackupJob < ApplicationJob
 
   def perform(backup)
     backup.running!
-
     file_name = backup.service.backup_file_name
     environment_variables = backup.service.backup_environment_variables.merge({
       AWS_ACCESS_TOKEN: ENV['AWS_ACCESS_TOKEN'],
@@ -21,7 +20,10 @@ class BackupJob < ApplicationJob
       backup.update(file_name: file_name)
       backup.complete!
     else
-      backup.failed
+      backup.failed!
     end
+  rescue
+    backup.failed!
+    raise
   end
 end
