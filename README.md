@@ -7,7 +7,7 @@ Create databases instantly, with automatic backups. Perfect for prototyping and 
 ### Install
 
 ```
-curl https://raw.githubusercontent.com/containerdb/containerdb/master/install.sh | sudo bash
+bash <(curl https://raw.githubusercontent.com/containerdb/containerdb/master/install.sh)
 ```
 
 ### Databases
