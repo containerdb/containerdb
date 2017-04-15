@@ -59,13 +59,13 @@ if [ ! -f /usr/bin/containerdb ]; then
   sudo containerdb scale web=1
 
   cat > /etc/nginx/sites-available/default <<EOF
-  server {
-    listen          80;
-    location / {
-      proxy_pass      http://localhost:6000;
-    }
+server {
+  listen          80;
+  location / {
+    proxy_pass      http://localhost:6000;
   }
-  EOF
+}
+EOF
 
   sudo service nginx containerdb restart
 
