@@ -2,7 +2,7 @@ echo 'Starting Container DB installer'
 echo ''
 
 # Is it already installed?
-INSTALLED=`hash containerdb 2>/dev/null`
+INSTALLED=`containerdb 2>/dev/null`
 
 if ! $INSTALLED; then
   echo 'Please enter your AWS credentials for backups'
