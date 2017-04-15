@@ -2,9 +2,7 @@ echo 'Starting Container DB installer'
 echo ''
 
 # Is it already installed?
-INSTALLED=`containerdb 2>/dev/null`
-
-if ! $INSTALLED; then
+if [ ! -f /usr/bin/containerdb ]; then
   echo 'Please enter your AWS credentials for backups'
   read -p 'AWS_SECRET_KEY: ' AWS_SECRET_KEY
   read -p 'AWS_ACCESS_TOKEN: ' AWS_ACCESS_TOKEN
@@ -41,7 +39,7 @@ echo ''
 
 HOST_IP=`curl ipinfo.io/ip` # Probably a better way to get our external IP, but this works for now
 
-if ! $INSTALLED; then
+if [ ! -f /usr/bin/containerdb ]; then
   echo 'Installing Container DB'
 
   # Create the Postgres Container
