@@ -33,7 +33,6 @@ echo ''
 # Pull the base images
 echo 'Pulling required Docker images'
 docker pull containerdb/backup-restore
-docker pull containerdb/containerdb
 docker pull postgres
 docker pull mysql
 docker pull tutum/redis
