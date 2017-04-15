@@ -16,10 +16,16 @@ fi
 # @todo test these keys work
 echo 'Installing required packages'
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+
+# Add the ContainerDB package
 wget -qO - https://deb.packager.io/key | sudo apt-key add -
+echo "deb https://deb.packager.io/gh/containerdb/containerdb xenial master" | sudo tee /etc/apt/sources.list.d/containerdb.list
+
+# Add Docker page
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-echo "deb https://deb.packager.io/gh/containerdb/containerdb xenial master" | sudo tee /etc/apt/sources.list.d/containerdb.list
+
+# Install packages
 sudo apt-get update
 sudo apt-get install docker-ce pwgen containerdb nginx -y
 echo ''
