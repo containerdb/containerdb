@@ -70,13 +70,13 @@ if ! $installed; then
 
   cat > /etc/nginx/sites-available/default <<EOF
 server {
-  listen          80;
+  listen 80;
   location / {
+    proxy_pass http://localhost:6000;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_redirect off;
-    proxy_pass      http://localhost:6000;
   }
 }
 EOF
