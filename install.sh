@@ -1,7 +1,11 @@
 echo 'Starting Container DB installer'
 echo ''
 
-installed=$(hash containerdb 2>/dev/null)
+if hash containerdb 2>/dev/null; then
+  installed=true
+else
+  installed=false
+fi
 
 # Is it already installed?
 if ! $installed; then
