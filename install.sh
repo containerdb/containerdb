@@ -1,3 +1,12 @@
+echo 'Starting Container DB installer'
+echo ''
+
+read -p 'AWS_SECRET_KEY: ' AWS_SECRET_KEY
+read -p 'AWS_ACCESS_TOKEN: ' AWS_ACCESS_TOKEN
+read -p 'AWS_BUCKET_NAME: ' AWS_BUCKET_NAME
+
+# @todo test these keys work
+
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
@@ -20,13 +29,7 @@ DB_CONTAINER_ID=`docker create --name $DB_CONTAINER_NAME -p $DB_PORT:5432 -e POS
 
 # Start the DB Container
 docker start $DB_CONTAINER_NAME
-
 # @todo wait for the DB container to start
-
-# @todo set these from input
-AWS_SECRET_KEY=
-AWS_ACCESS_TOKEN=
-AWS_BUCKET_NAME=
 
 # Create the app
 HOST_IP=`curl ipinfo.io/ip` # Probably a better way to get our external IP, but this works for now
