@@ -5,6 +5,7 @@ sudo apt-get update
 sudo apt-get install docker-ce -y
 
 # Pull the base images
+docker pull containerdb/backup-restore
 docker pull postgres
 docker pull mysql
 docker pull tutum/redis
