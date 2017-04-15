@@ -17,6 +17,10 @@ class Service < ApplicationRecord
 
   has_many :backups
 
+  def backup
+    BackupJob.perform_later(self.backups.create)
+  end
+
   def container
     if container_id.blank?
       # Create the Docker container

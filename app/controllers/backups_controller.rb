@@ -5,8 +5,7 @@ class BackupsController < ApplicationController
 
   def create
     service = Service.find(params[:service_id])
-    backup = service.backups.create
-    BackupJob.perform_later(backup)
+    service.backup
     redirect_to :back
   end
 
