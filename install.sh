@@ -9,15 +9,19 @@ fi
 
 # Is it already installed?
 if ! $installed; then
+  HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
+  read -p "Enter Hostname: " -e -i $HOST_IP HOST_NAME
+  echo ''
+
+  echo 'And now lets setup your first user'
+  read -p 'ADMIN_EMAIL: ' ADMIN_EMAIL
+  read -p 'ADMIN_PASSWORD: ' ADMIN_PASSWORD
+
   echo 'Please enter your AWS credentials for backups'
   read -p 'AWS_SECRET_KEY: ' AWS_SECRET_KEY
   read -p 'AWS_ACCESS_TOKEN: ' AWS_ACCESS_TOKEN
   read -p 'AWS_BUCKET_NAME: ' AWS_BUCKET_NAME
-  echo 'Thanks...'
   echo ''
-
-  HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
-  read -p "Enter Hostname: " -e -i $HOST_IP HOST_NAME
 fi
 
 # @todo test these keys work
@@ -90,6 +94,7 @@ EOF
 
   sudo containerdb run rails db:create db:migrate
   sudo containerdb run rails r "Service.create!(locked: true, service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
+  sudo containerdb run rails r "User.create!(email: '$ADMIN_EMAIL', password: '$ADMIN_PASSWORD')"
 else
   sudo containerdb run rails db:migrate
   sudo service containerdb restart
