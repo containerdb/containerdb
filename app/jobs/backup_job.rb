@@ -18,6 +18,8 @@ class BackupJob < ApplicationJob
       backup.update(file_name: file_name)
       backup.complete!
     else
+      puts container.logs(stderr: true)
+      puts container.logs(stdout: true)
       backup.failed!
     end
   rescue
