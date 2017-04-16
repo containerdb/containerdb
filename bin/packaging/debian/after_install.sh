@@ -12,19 +12,41 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo 'Lets configure Container DB'
   echo ''
   HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
-  read -p "Enter Hostname: " -e -i $HOST_IP HOST_NAME
+
+  while [[ -z "$HOST_NAME" ]]
+  do
+    read -p "Hostname: " -e -i $HOST_IP HOST_NAME
+  done
   echo ''
 
   echo 'And now lets setup your first user'
-  read -p 'ADMIN_EMAIL: ' ADMIN_EMAIL
-  read -p 'ADMIN_PASSWORD: ' ADMIN_PASSWORD
-  echo ''
+  while [[ -z "$ADMIN_EMAIL" ]]
+  do
+    read -p "Admin Email: " -e ADMIN_EMAIL
+  done
 
-  echo 'Please enter your AWS credentials for backups'
-  read -p 'AWS_SECRET_KEY: ' AWS_SECRET_KEY
-  read -p 'AWS_ACCESS_TOKEN: ' AWS_ACCESS_TOKEN
-  read -p 'AWS_BUCKET_NAME: ' AWS_BUCKET_NAME
+  while [[ -z "$ADMIN_PASSWORD" ]]
+  do
+    read -p "Admin Password: " -e ADMIN_PASSWORD
+  done
+
   echo ''
+  echo 'Please enter your AWS credentials for backups'
+
+  while [[ -z "$AWS_SECRET_KEY" ]]
+  do
+    read -p "AWS_SECRET_KEY: " -e AWS_SECRET_KEY
+  done
+
+  while [[ -z "$AWS_ACCESS_TOKEN" ]]
+  do
+    read -p "AWS_ACCESS_TOKEN: " -e AWS_ACCESS_TOKEN
+  done
+
+  while [[ -z "$AWS_BUCKET_NAME" ]]
+  do
+    read -p "AWS_BUCKET_NAME: " -e AWS_BUCKET_NAME
+  done
 
   echo 'Thanks... carrying on'
   echo ''
