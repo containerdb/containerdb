@@ -92,6 +92,7 @@ EOF
   sudo containerdb run rails r "Service.create!(service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
 else
   sudo containerdb run rails db:migrate
+  sudo service containerdb restart
 fi
 
 echo ''
