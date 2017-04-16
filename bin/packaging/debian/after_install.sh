@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 chown containerdb /var/run/docker.sock
 docker pull containerdb/backup-restore
-docker pull postgres:9.6
-docker pull mysql:5.7
+docker pull postgres
+docker pull mysql
 docker pull tutum/redis
 
 # Setup for the first time
@@ -56,22 +56,25 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   DB_USERNAME='postgres'
   DB_PASSWORD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
   DB_CONTAINER_ID=`docker create --name containerdb_db -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres`
-
-  # Start the DB Container
   docker start containerdb_db
   sleep 5 # @todo wait for the DB container to start
 
+  # Setup Container DB configs
   sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN
   sudo containerdb config:set AWS_SECRET_KEY=$AWS_SECRET_KEY
   sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
   sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@127.0.0.1:$DB_PORT"
   sudo containerdb config:set HOST=$HOST_NAME
+
+  # Scale up the app
   sudo containerdb scale web=1
   sudo service containerdb restart
 
   sudo containerdb run rails db:create db:migrate
-  sudo containerdb run rails r "Service.create!(locked: true, service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
   sudo containerdb run rails r "User.create!(email: '$ADMIN_EMAIL', password: '$ADMIN_PASSWORD')"
+
+  # Add the Postgres container to the app so it can self manage
+  sudo containerdb run rails r "Service.create!(locked: true, service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
   sudo containerdb run rails r "Service.where(name: 'containerdb', locked: true).first.backup(inline: true)"
 
   cat > /etc/nginx/sites-available/default <<EOF
