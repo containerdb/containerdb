@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Container DB<%= content_for?(:title) ? " - #{content_for(:title)}" : nil %></title>    
+    <title>Container DB<%= content_for?(:title) ? " - #{content_for(:title)}" : nil %></title>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -13,6 +13,14 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/">Container DB</a>
         </div>
+
+        <% if user_signed_in? %>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+            </ul>
+          </div>
+        <% end %>
       </div>
     </nav>
 
