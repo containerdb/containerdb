@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
+chown containerdb /var/run/docker.sock
+docker pull containerdb/backup-restore
+docker pull postgres
+docker pull mysql
+docker pull tutum/redis
 
 # Setup for the first time
-if containerdb config:get DATABASE_URL 2>/dev/null; then
+if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   # Get the configs from the user. This may not work, testing now
   echo ''
   HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
@@ -39,6 +44,21 @@ if containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb run rails r "Service.create!(locked: true, service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
   sudo containerdb run rails r "User.create!(email: '$ADMIN_EMAIL', password: '$ADMIN_PASSWORD')"
   sudo containerdb run rails r "Service.where(name: 'containerdb', locked: true).first.backup(inline: true)"
+
+  cat > /etc/nginx/sites-available/default <<EOF
+server {
+  listen 80;
+  location / {
+    proxy_pass http://localhost:6000;
+    proxy_set_header X-Forwarded-Proto \$scheme;
+    proxy_set_header Host \$http_host;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_redirect off;
+  }
+}
+EOF
+
+  sudo service nginx restart
 else
   sudo containerdb run rails r "Service.where(name: 'containerdb', locked: true).first.backup(inline: true)"
   sudo containerdb run rails db:migrate
