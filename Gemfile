@@ -17,6 +17,10 @@ gem "twitter-bootstrap-rails"
 
 gem 'docker-api'
 
+# Auth
+gem 'devise'
+gem 'devise-bootstrap-views'
+
 group :development, :test do
   gem 'byebug', platform: :mri
 end
