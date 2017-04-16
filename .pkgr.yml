@@ -1,8 +1,8 @@
 targets:
   ubuntu-16.04:
 
-before: "bin/packaging/debian/before.sh"
-
 dependencies:
   - docker-ce
   - nginx
+
+before: "bin/packaging/debian/before.sh"
