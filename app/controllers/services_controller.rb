@@ -19,6 +19,9 @@ class ServicesController < ApplicationController
     @service = Service.new(params.require(:service).permit(:service_type, :name))
     if @service.save
       @service.container.start
+      @service.container.wait(10)
+      @service.backup
+
       redirect_to services_path
     else
       render :new
