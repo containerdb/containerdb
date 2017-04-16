@@ -37,6 +37,27 @@ sudo apt-get update
 sudo apt-get install docker-ce containerdb nginx -y
 echo ''
 
+# Allow docker to be accessed via TCP
+if ! $installed; then
+  cat > /etc/systemd/system/docker-tcp.socket <<EOF
+[Unit]
+Description=Docker Socket for the API
+[Socket]
+ListenStream=2375
+BindIPv6Only=both
+Service=docker.service
+[Install]
+WantedBy=sockets.target
+EOF
+
+  systemctl enable docker-tcp.socket
+  systemctl enable docker.socket
+  systemctl stop docker
+  systemctl start docker-tcp.socket
+  systemctl start docker
+fi
+
+
 # Pull the base images
 echo 'Pulling required Docker images'
 docker pull containerdb/backup-restore
@@ -66,6 +87,7 @@ if ! $installed; then
   sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
   sudo containerdb config:set DATABASE_URL=$DB_URL
   sudo containerdb config:set HOST=$HOST_NAME
+  sudo containerdb config:set DOCKER_URL='tcp://127.0.0.1:2375'
   sudo containerdb scale web=1
 
   cat > /etc/nginx/sites-available/default <<EOF
