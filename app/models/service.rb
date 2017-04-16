@@ -17,8 +17,12 @@ class Service < ApplicationRecord
 
   has_many :backups
 
-  def backup
-    BackupJob.perform_later(self.backups.create)
+  def backup(inline: false)
+    if inline
+      BackupJob.perform_now(self.backups.create)
+    else
+      BackupJob.perform_later(self.backups.create)
+    end
   end
 
   def container
