@@ -57,12 +57,15 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   DB_PASSWORD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
   DB_CONTAINER_ID=`docker create --name containerdb_postgres -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres`
   docker start containerdb_postgres
-  sleep 5 # @todo wait for the DB container to start
+  sleep 5 # @todo wait for the postgres container to start
 
   # Create the Redis Container
   REDIS_PORT=8475
   REDIS_PASS=`date +%s | sha256sum | base64 | head -c 32 ; echo`
   REDIS_CONTAINER_ID=`docker create --name containerdb_redis -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS tutum/redis`
+  docker start containerdb_redis
+  sleep 5 # @todo wait for the redis container to start
+
 
   # Setup Container DB configs
   sudo containerdb config:set HOST=$HOST_NAME
