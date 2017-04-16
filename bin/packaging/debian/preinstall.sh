@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-printenv
+if hash containerdb 2>/dev/null; then
+  echo 'ALREADY INSTALLED'
+else
+  echo 'FIRST INSTALLATION'
+fi
