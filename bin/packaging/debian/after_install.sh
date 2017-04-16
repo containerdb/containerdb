@@ -9,6 +9,8 @@ docker pull tutum/redis
 if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   # Get the configs from the user. This may not work, testing now
   echo ''
+  echo 'Lets configure Container DB'
+  echo ''
   HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
   read -p "Enter Hostname: " -e -i $HOST_IP HOST_NAME
   echo ''
@@ -16,11 +18,15 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo 'And now lets setup your first user'
   read -p 'ADMIN_EMAIL: ' ADMIN_EMAIL
   read -p 'ADMIN_PASSWORD: ' ADMIN_PASSWORD
+  echo ''
 
   echo 'Please enter your AWS credentials for backups'
   read -p 'AWS_SECRET_KEY: ' AWS_SECRET_KEY
   read -p 'AWS_ACCESS_TOKEN: ' AWS_ACCESS_TOKEN
   read -p 'AWS_BUCKET_NAME: ' AWS_BUCKET_NAME
+  echo ''
+
+  echo 'Thanks... carrying on'
   echo ''
 
   # Create the Postgres Container
@@ -38,6 +44,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
   sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@$HOST_NAME:$DB_PORT"
   sudo containerdb config:set HOST=$HOST_NAME
+  sudo containerdb scale web=1
   sudo service containerdb restart
 
   sudo containerdb run rails db:create db:migrate
