@@ -34,7 +34,7 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 
 # Install packages
 sudo apt-get update
-sudo apt-get install docker-ce pwgen containerdb nginx -y
+sudo apt-get install docker-ce containerdb nginx -y
 echo ''
 
 # Pull the base images
@@ -51,7 +51,7 @@ if ! $installed; then
   # Create the Postgres Container
   DB_PORT=8474
   DB_USERNAME='postgres'
-  DB_PASSWORD=`pwgen 15 1`
+  DB_PASSWORD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
   DB_CONTAINER_ID=`docker create --name containerdb_db -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres`
 
   # Start the DB Container
