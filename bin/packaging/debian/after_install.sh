@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 chown containerdb /var/run/docker.sock
 docker pull containerdb/backup-restore
-docker pull postgres
-docker pull mysql
+docker pull postgres:9.6
+docker pull mysql:5.7
 docker pull tutum/redis
 
 # Setup for the first time
