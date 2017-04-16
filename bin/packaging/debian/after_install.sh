@@ -42,7 +42,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN
   sudo containerdb config:set AWS_SECRET_KEY=$AWS_SECRET_KEY
   sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
-  sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@$HOST_NAME:$DB_PORT"
+  sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@127.0.0.1:$DB_PORT"
   sudo containerdb config:set HOST=$HOST_NAME
   sudo containerdb scale web=1
   sudo service containerdb restart
