@@ -66,7 +66,6 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   docker start containerdb_redis
   sleep 5 # @todo wait for the redis container to start
 
-
   # Setup Container DB configs
   sudo containerdb config:set HOST=$HOST_NAME
   sudo containerdb config:set AWS_ACCESS_TOKEN=$AWS_ACCESS_TOKEN
