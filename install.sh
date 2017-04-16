@@ -66,7 +66,6 @@ if ! $installed; then
   sudo containerdb config:set AWS_BUCKET_NAME=$AWS_BUCKET_NAME
   sudo containerdb config:set DATABASE_URL=$DB_URL
   sudo containerdb config:set HOST=$HOST_NAME
-  sudo containerdb config:set DOCKER_URL='tcp://127.0.0.1:2375'
   sudo containerdb scale web=1
 
   cat > /etc/nginx/sites-available/default <<EOF
