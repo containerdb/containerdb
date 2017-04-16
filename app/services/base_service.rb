@@ -24,6 +24,6 @@ class BaseService
   alias_method :backup_file_suffix,               :not_implemented!
 
   def backup_file_name
-    "backup-#{service.service_type}-#{service.name.parameterize}-#{Time.now.to_i}.#{backup_file_suffix}"
+    "#{ENV['HOST']}/backup-#{service.service_type}-#{service.name.parameterize}-#{Time.now.to_i}.#{backup_file_suffix}"
   end
 end
