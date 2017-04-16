@@ -85,7 +85,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
 
   # Add the Redis container to the app so it can self manage
-  sudo containerdb run rails r "Service.create!(locked: true, service_type: :redis, name: 'containerdb_redis', port: $REDIS_PORT, container_id: '$REDIS_CONTAINER_ID', environment_variables: { 'REDIS_PASS' => '$REDIS_PASS')"
+  sudo containerdb run rails r "Service.create!(locked: true, service_type: :redis, name: 'containerdb_redis', port: $REDIS_PORT, container_id: '$REDIS_CONTAINER_ID', environment_variables: { 'REDIS_PASS' => '$REDIS_PASS' })"
   #sudo containerdb run rails r "Service.where(name: 'containerdb_redis', locked: true).first.backup(inline: true)"
 
   cat > /etc/nginx/sites-available/default <<EOF
