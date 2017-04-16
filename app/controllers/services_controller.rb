@@ -6,7 +6,7 @@ class ServicesController < ApplicationController
 
   def destroy
     @service = Service.find(params[:id])
-    @service.destroy
+    @service.destroy unless @service.locked?
     redirect_to :back
   end
 

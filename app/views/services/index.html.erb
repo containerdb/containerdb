@@ -22,7 +22,10 @@
           <% if service.can_backup? %>
             <%= link_to 'Backups', service_backups_path(service), class: 'btn btn-info btn-xs' %>
           <% end %>
-          <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
+
+          <% unless service.locked? %>
+            <%= link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
         </td>
       </tr>
 

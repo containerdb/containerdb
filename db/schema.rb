@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170415171524) do
+ActiveRecord::Schema.define(version: 20170416004818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,10 +29,11 @@ ActiveRecord::Schema.define(version: 20170415171524) do
     t.string   "container_id"
     t.hstore   "environment_variables", default: {}
     t.integer  "port"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.string   "service_type"
     t.string   "name"
+    t.boolean  "locked",                default: false
   end
 
 end
