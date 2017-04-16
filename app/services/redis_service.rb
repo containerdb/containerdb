@@ -20,4 +20,20 @@ class RedisService < BaseService
   def container_port
     6379
   end
+
+  def backup_environment_variables
+    {
+      REDIS_HOST: ENV['HOST'],
+      REDIS_PASSWORD: service.environment_variables['REDIS_PASS'],
+      REDIS_PORT: service.port,
+    }
+  end
+
+  def backup_file_suffix
+    'rdb'
+  end
+
+  def backup_script_path
+    'app/redis/backup.sh'
+  end
 end
