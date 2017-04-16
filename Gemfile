@@ -17,6 +17,8 @@ gem "twitter-bootstrap-rails"
 
 gem 'docker-api'
 
+gem 'sidekiq'
+
 # Auth
 gem 'devise'
 gem 'devise-bootstrap-views'
