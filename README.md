@@ -10,6 +10,7 @@ Create databases instantly, with automatic backups. Perfect for prototyping and 
  - Docker (Installed Automatically)
  - Postgres (Installed Automatically)
  - Nginx (Installed Automatically)
+ - Redis (Installed Automatically)
 
 ### Install
 
