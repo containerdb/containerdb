@@ -5,5 +5,4 @@ dependencies:
 targets:
   ubuntu-16.04:
 
-before_install: "bin/packaging/debian/before_install.sh"
 after_install: "bin/packaging/debian/after_install.sh"
