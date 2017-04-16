@@ -37,6 +37,10 @@ sudo apt-get update
 sudo apt-get install docker-ce containerdb nginx -y
 echo ''
 
+# Allow containerdb to interact with docker
+# @todo there must be a better way to do this?
+chown containerdb /var/run/docker.sock
+
 # Pull the base images
 echo 'Pulling required Docker images'
 docker pull containerdb/backup-restore
