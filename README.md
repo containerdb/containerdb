@@ -7,6 +7,9 @@ Create databases instantly, with automatic backups. Perfect for prototyping and 
 ### Dependencies
 
  - Ubuntu 16.04 (may work on lower, but not tested yet)
+ - Docker (Installed Automatically)
+ - Postgres (Installed Automatically)
+ - Nginx (Installed Automatically)
 
 ### Install
 
