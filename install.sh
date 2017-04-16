@@ -95,7 +95,9 @@ EOF
   sudo containerdb run rails db:create db:migrate
   sudo containerdb run rails r "Service.create!(locked: true, service_type: :postgres, name: 'containerdb', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
   sudo containerdb run rails r "User.create!(email: '$ADMIN_EMAIL', password: '$ADMIN_PASSWORD')"
+  sudo containerdb run rails r "Service.where(name: 'containerdb', locked: true).first.backup(inline: true)"
 else
+  sudo containerdb run rails r "Service.where(name: 'containerdb', locked: true).first.backup(inline: true)"
   sudo containerdb run rails db:migrate
   sudo service containerdb restart
 fi
