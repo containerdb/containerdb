@@ -25,6 +25,7 @@ gem 'devise-bootstrap-views'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
+  gem 'simplecov', require: false
 end
 
 group :development do
