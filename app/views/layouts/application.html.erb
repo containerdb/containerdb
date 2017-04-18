@@ -17,6 +17,7 @@
         <% if user_signed_in? %>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+              <li><a>Docker: <%= Docker.url %> v<%= Docker.version['Version'] %></a></li>
               <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
             </ul>
           </div>
