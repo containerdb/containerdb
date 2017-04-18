@@ -6,7 +6,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'devise'                                   # Authentication
 gem 'devise-bootstrap-views'
 gem 'docker-api'
-gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'pg'
 gem 'puma', '~> 3.0'
