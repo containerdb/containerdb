@@ -3,6 +3,7 @@ ruby '~> 2.2'
 
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 
+gem 'bootstrap-sass'
 gem 'devise'                                   # Authentication
 gem 'devise-bootstrap-views'
 gem 'docker-api'
@@ -13,7 +14,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'                                  # Background jobs
 gem 'simple_form'
 gem 'turbolinks', '~> 5'
-gem 'twitter-bootstrap-rails'
 gem 'uglifier', '>= 1.3.0'
 
 group :development, :test do
