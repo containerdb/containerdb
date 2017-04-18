@@ -7,6 +7,7 @@ gem 'bootstrap-sass'
 gem 'devise'                                   # Authentication
 gem 'devise-bootstrap-views'
 gem 'docker-api'
+gem 'haml'
 gem 'jquery-rails'
 gem 'pg'
 gem 'puma', '~> 3.0'
