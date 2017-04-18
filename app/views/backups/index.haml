@@ -1,0 +1,28 @@
+= content_for :title, "#{@service.name} Backups"
+
+%ol.breadcrumb
+  %li
+    = link_to 'Services', services_path
+  %li
+    = @service.name
+  %li Backups
+
+- if @service.backups.any?
+  %table.table.table-striped
+    %tr
+      %th Time
+      %th File Name
+      %th Status
+      %th Actions
+    - @service.backups.order(created_at: :desc).each do |backup|
+      %tr
+        %td
+          = backup.created_at
+        %td
+          = backup.file_name || '-'
+        %td
+          = backup.status
+        %td
+          = link_to 'Destroy', service_backup_path(@service, backup), method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }
+
+= link_to '+ Backup', service_backups_path(@service), method: :create, class: 'btn btn-primary btn-xs'

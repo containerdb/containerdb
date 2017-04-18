@@ -1,0 +1,46 @@
+%ol.breadcrumb
+  %li Services
+- if @services.any?
+  %table.table.table-striped
+    %tr
+      %th Service
+      %th Image
+      %th Container
+      %th Port
+      %th Actions
+    - @services.each do |service|
+      %tr
+        %td= service.name
+        %td
+          = service.service_type
+          (#{service.image})
+        %td
+          - # May not actually be starting, but this will do until there's a service "status"
+          - if service.container_id
+            %samp= service.container_id.to_s.first(12)
+          - else
+            %em.text-muted starting..
+        %td= service.port
+        %td
+          %button.btn.btn-success.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
+          - if service.can_backup?
+            = link_to 'Backups', service_backups_path(service), class: 'btn btn-info btn-xs'
+          - unless service.locked?
+            = link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' }
+      .modal.fade{"aria-labelledby" => "myModalLabel", :id => "connection-#{service.id}", :role => "dialog", :tabindex => "-1"}
+        .modal-dialog{:role => "document"}
+          .modal-content
+            .modal-header
+              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                %span{"aria-hidden" => "true"} ×
+              %h4#myModalLabel.modal-title
+                Connection Details for #{service.name}
+            .modal-body
+              = simple_form_for service do |f|
+                = f.input :connection_command, readonly: true
+                = f.input :connection_string, readonly: true
+
+- else
+  %p.alert.alert-info You have not launched any services yet
+
+= link_to '+ Create', choose_services_path, class: 'btn btn-primary btn-xs'

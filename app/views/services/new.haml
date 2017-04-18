@@ -1,0 +1,13 @@
+= content_for :title, "Create a #{@service.service_type} Service"
+
+%ol.breadcrumb
+  %li
+    = link_to 'Services', services_path
+  %li.active
+    Create a #{@service.service_type} Service
+
+= simple_form_for @service, html: { class: 'well' } do |f|
+  = f.input :service_type, as: :hidden
+  = f.input :image, as: :hidden
+  = f.input :name
+  = f.button :submit
