@@ -8,6 +8,7 @@
       <th>Service</th>
       <th>Image</th>
       <th>Container</th>
+      <th>Port</th>
       <th>Actions</th>
     </tr>
 
@@ -23,6 +24,7 @@
             <em class="text-muted">starting..</em>
           <%- end %>
         </td>
+        <td><%= service.port %></td>
         <td>
           <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">Connect</button>
           <% if service.can_backup? %>
