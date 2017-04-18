@@ -26,9 +26,9 @@ class StartServiceJob < ApplicationJob
       },
     )
     Rails.logger.info("Starting Container #{container.id} for Service ##{service.id}")
-    service.update!(container_id: container.id)
     container.start
     Rails.logger.info("Started Container #{container.id} for Service ##{service.id}")
+    service.update!(container_id: container.id)
     Rails.logger.debug(container)
   end
 end
