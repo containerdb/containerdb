@@ -14,8 +14,15 @@
     <% @services.each do |service| %>
       <tr>
         <td><%= service.name %></td>
-        <td><%= service.service_type %></td>
-        <td><%= service.container_id.to_s.first(12) %></td>
+        <td><%= service.service_type %> (<%= service.image %>)</td>
+        <td>
+          <% # May not actually be starting, but this will do until there's a service "status" %>
+          <%- if service.container_id %>
+            <samp><%= service.container_id.to_s.first(12) %></samp>
+          <%- else %>
+            <em class="text-muted">starting..</em>
+          <%- end %>
+        </td>
         <td>
           <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#connection-<%= service.id %>">Connect</button>
           <% if service.can_backup? %>

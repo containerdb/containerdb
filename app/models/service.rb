@@ -26,26 +26,7 @@ class Service < ApplicationRecord
   end
 
   def container
-    if container_id.blank?
-      # Create the Docker container
-      container = Docker::Container.create(
-        'name' => "#{image.parameterize}-#{id}",
-        'Image' => image,
-        'Env' => container_env,
-        'ExposedPorts' => { "#{service.container_port}/tcp" => {} },
-        'HostConfig' => {
-          'PortBindings' => {
-            "#{service.container_port}/tcp" => [{ 'HostPort' => port.to_s }]
-          }
-        }
-      )
-
-      # Track the container ID so we can destroy it later
-      self.update(container_id: container.id)
-      container
-    else
-      Docker::Container.get(container_id)
-    end
+    Docker::Container.get(container_id) if container_id
   end
 
   def destroy_container
@@ -83,15 +64,17 @@ class Service < ApplicationRecord
     false
   end
 
-  protected
+  def container_env
+    self.environment_variables.map do |key, value|
+      "#{key}=#{value}"
+    end
+  end
 
   def service
     @_service ||= "#{service_type.capitalize}Service".constantize.new(self)
   end
 
-  def container_env
-    self.environment_variables.map {|key, value| "#{key}=#{value}" }
-  end
+  protected
 
   # @todo handle collisions
   def assign_port

@@ -18,7 +18,7 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(params.require(:service).permit(:service_type, :name))
     if @service.save
-      @service.container.start
+      StartServiceJob.perform_later(@service)
       redirect_to services_path
     else
       render :new
