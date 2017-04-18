@@ -5,7 +5,6 @@ gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 
 gem 'bootstrap-sass'
 gem 'devise'                                   # Authentication
-gem 'devise-bootstrap-views'
 gem 'docker-api'
 gem 'haml'
 gem 'jquery-rails'

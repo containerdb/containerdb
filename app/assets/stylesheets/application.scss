@@ -1,8 +1,18 @@
 @import "variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "devise_bootstrap_views";
 
 body {
   padding-top: $navbar-height + $grid-gutter-width;
+}
+
+// Copied from devise_bootstrap_views, not sure if we care about it
+.float-none {
+  float: none;
+}
+.panel-heading {
+  padding: 15px;
+  h4 {
+    margin: 0px;
+  }
 }
