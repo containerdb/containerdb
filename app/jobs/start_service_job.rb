@@ -1,6 +1,12 @@
 class StartServiceJob < ApplicationJob
   def perform(service)
     return if service.container_id
+    Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
+    image = Docker::Image.create(
+      'fromImage' => service.image,
+    )
+    Rails.logger.info("Pulled Image #{service.image} for Service ##{service.id}")
+    Rails.logger.debug(image)
     Rails.logger.info("Creating Container for Service ##{service.id}")
     container = Docker::Container.create(
       'name' => "#{service.image.parameterize}-#{service.id}",
