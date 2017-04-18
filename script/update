@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sh `dirname $0`/bootstrap
+rake db:migrate
