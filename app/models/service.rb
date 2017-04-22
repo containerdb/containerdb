@@ -7,7 +7,10 @@ class Service < ApplicationRecord
   }
 
   validates :name, presence: true
-  validates :port, uniqueness: true, presence: true
+
+  validates :port, presence: true
+  validates :port, uniqueness: { scope: :hosted }, if: :hosted?
+
   validates :service_type, presence: true, inclusion: { in: Service::SERVICES.keys.map(&:to_s) }
   validates :image, presence: true, inclusion: { in: Service::SERVICES.values }, if: :hosted?
   validate :validate_environment_variables
