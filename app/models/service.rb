@@ -16,7 +16,7 @@ class Service < ApplicationRecord
   after_initialize :assign_image, if: :hosted?
   after_initialize :assign_environment_variables
 
-  before_destroy :destroy_container
+  before_destroy :destroy_container, if: :hosted?
 
   has_many :backups
 
