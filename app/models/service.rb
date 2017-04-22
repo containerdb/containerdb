@@ -22,6 +22,7 @@ class Service < ApplicationRecord
   before_destroy :destroy_container, if: :hosted?
 
   has_many :backups
+  belongs_to :storage_provider
 
   def backup(inline: false)
     if inline
