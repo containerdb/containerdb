@@ -1,15 +1,6 @@
 require "docker"
 
-Docker.url = ENV['DOCKER_HOST'].presence || "unix:///var/run/docker.sock"
-
-if ENV['DOCKER_CERT_PATH'].present?
-  cert_path = ENV['DOCKER_CERT_PATH']
-  Docker.options = {
-    client_cert: File.join(cert_path, 'cert.pem'),
-    client_key: File.join(cert_path, 'key.pem'),
-    ssl_ca_file: File.join(cert_path, 'ca.pem'),
-    scheme: 'https',
-  }
-end
+# Set the host: https://github.com/swipely/docker-api#host
+# Set SSL certs: https://github.com/swipely/docker-api#ssl
 
 Rails.logger.info("Connected to Docker daemon on #{Docker.url}")
