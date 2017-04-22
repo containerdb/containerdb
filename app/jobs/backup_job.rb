@@ -19,7 +19,9 @@ class BackupJob < ApplicationJob
     })
 
     image = Docker::Image.get('containerdb/backup-restore')
-    container = image.run("sh #{backup.service.backup_script_path}", { 'Env' => environment_variables.map {|key, value| "#{key}=#{value}" } })
+    container = image.run("sh #{backup.service.backup_script_path}", {
+      'Env' => environment_variables.map {|key, value| "#{key}=#{value}" }
+    })
 
     response = container.wait(3600)
     Rails.logger.info(container.logs(stderr: true))
