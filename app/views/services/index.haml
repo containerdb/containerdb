@@ -4,7 +4,7 @@
   %table.table.table-striped
     %tr
       %th Service
-      %th Image
+      %th Type
       %th Container
       %th Port
       %th Actions
@@ -13,13 +13,16 @@
         %td= service.name
         %td
           = service.service_type
-          (#{service.image})
+          - if service.hosted?
+            (#{service.image})
         %td
-          - # May not actually be starting, but this will do until there's a service "status"
-          - if service.container_id
-            %samp= service.container_id.to_s.first(12)
+          - if service.hosted?
+            - if service.container_id
+              %samp= service.container_id.to_s.first(12)
+            - else
+              %em.text-muted starting..
           - else
-            %em.text-muted starting..
+            N/A
         %td= service.port
         %td
           %button.btn.btn-success.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect

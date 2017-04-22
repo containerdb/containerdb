@@ -16,11 +16,12 @@ class ServicesController < ApplicationController
   end
 
   def create
-    @service = Service.new(params.require(:service).permit(:service_type, :name, :hosted, :port))
+    @service = Service.new(params.require(:service).permit(:service_type, :name, :hosted, :port, :environment_variables))
     if @service.save
-      StartServiceJob.perform_later(@service)
+      StartServiceJob.perform_later(@service) if @service.hosted?
       redirect_to services_path
     else
+      # raise @service.errors.to_json
       render :new
     end
   end

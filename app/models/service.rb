@@ -9,10 +9,10 @@ class Service < ApplicationRecord
   validates :name, presence: true
   validates :port, uniqueness: true, presence: true
   validates :service_type, presence: true, inclusion: { in: Service::SERVICES.keys.map(&:to_s) }
-  validates :image, presence: true, inclusion: { in: Service::SERVICES.values }
+  validates :image, presence: true, inclusion: { in: Service::SERVICES.values }, if: :hosted?
   validate :validate_environment_variables
 
-  after_initialize :assign_port, :assign_environment_variables, :assign_image
+  after_initialize :assign_port, :assign_environment_variables, :assign_image, if: :hosted?
   before_destroy :destroy_container
 
   has_many :backups
