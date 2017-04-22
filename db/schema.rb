@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(version: 20170422170314) do
   create_table "storage_providers", force: :cascade do |t|
     t.string   "provider"
     t.string   "name"
-    t.hstore   "environment_variables"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.hstore   "environment_variables", default: {}
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   create_table "users", force: :cascade do |t|

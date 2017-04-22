@@ -15,14 +15,12 @@
   = f.input :image, as: :hidden
   = f.input :name
   = f.input :backup_storage_provider_id, collection: StorageProvider.all, label: 'Backup Storage Provider', label_method: :label_method
-
-  - default_environment_variables = ::EnvironmentVariablesDecorator.new(@service.default_environment_variables)
   = f.input :port
 
   %h1.lead Environment Variables
-
-  = f.simple_fields_for(default_environment_variables) do |field|
-    - default_environment_variables.each do |key, value|
+  - environment_variables = ::EnvironmentVariablesDecorator.new(@service.default_environment_variables.merge(@service.environment_variables))
+  = f.simple_fields_for(environment_variables) do |field|
+    - environment_variables.each do |key, value|
       = field.input key, label: key.to_s
 
 

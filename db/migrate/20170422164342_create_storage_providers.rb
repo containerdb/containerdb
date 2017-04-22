@@ -3,7 +3,7 @@ class CreateStorageProviders < ActiveRecord::Migration[5.0]
     create_table :storage_providers do |t|
       t.string :provider
       t.string :name
-      t.hstore :environment_variables
+      t.hstore :environment_variables, default: {}
 
       t.timestamps
     end
