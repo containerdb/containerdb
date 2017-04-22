@@ -106,11 +106,6 @@ class Service < ApplicationRecord
     @_service ||= "Service::#{service_type.capitalize}Service".constantize.new(self)
   end
 
-  def backup_storage_provider_service
-    return nil unless storage_provider_id.present?
-    storage_provider.storage_provider_service
-  end
-
   protected
 
   # @todo handle collisions

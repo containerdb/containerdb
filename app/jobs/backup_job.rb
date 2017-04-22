@@ -2,7 +2,9 @@ class BackupJob < ApplicationJob
 
   def perform(backup)
     Rails.logger.info("Starting backup for #{backup.service.id}")
-    unless backup.service.backup_storage_provider.present?
+
+    backup_storage_provider = backup.service.backup_storage_provider
+    unless backup_storage_provider.present?
       backup.failed!
       return false
     end
@@ -10,9 +12,9 @@ class BackupJob < ApplicationJob
     backup.running!
     file_name = backup.service.backup_file_name
     environment_variables = backup.service.backup_environment_variables.merge({
-      AWS_ACCESS_TOKEN: backup.backup_storage_provider.environment_variables['AWS_ACCESS_TOKEN'],
-      AWS_SECRET_KEY: backup.backup_storage_provider.environment_variables['AWS_SECRET_KEY'],
-      AWS_BUCKET_NAME: backup.backup_storage_provider.environment_variables['AWS_BUCKET_NAME'],
+      AWS_ACCESS_TOKEN: backup_storage_provider.environment_variables['AWS_ACCESS_TOKEN'],
+      AWS_SECRET_KEY: backup_storage_provider.environment_variables['AWS_SECRET_KEY'],
+      AWS_BUCKET_NAME: backup_storage_provider.environment_variables['AWS_BUCKET_NAME'],
       FILE_NAME: file_name
     })
 
