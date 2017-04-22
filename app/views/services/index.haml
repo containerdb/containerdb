@@ -32,7 +32,7 @@
           - if service.can_backup?
             = link_to 'Backups', service_backups_path(service), class: 'btn btn-info btn-xs'
           - unless service.locked?
-            = link_to 'Destroy', service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' }
+            = link_to (service.hosted? ? 'Destroy' : 'Remove'), service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' }
       .modal.fade{"aria-labelledby" => "myModalLabel", :id => "connection-#{service.id}", :role => "dialog", :tabindex => "-1"}
         .modal-dialog{:role => "document"}
           .modal-content
