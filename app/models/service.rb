@@ -101,7 +101,7 @@ class Service < ApplicationRecord
   end
 
   def service
-    @_service ||= "#{service_type.capitalize}Service".constantize.new(self)
+    @_service ||= "Service::#{service_type.capitalize}Service".constantize.new(self)
   end
 
   protected

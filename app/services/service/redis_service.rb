@@ -1,4 +1,4 @@
-class RedisService < BaseService
+class Service::RedisService < Service::BaseService
   def default_environment_variables
     {
       'REDIS_PASS' => SecureRandom.hex

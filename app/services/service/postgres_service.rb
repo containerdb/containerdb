@@ -1,4 +1,4 @@
-class PostgresService < BaseService
+class Service::PostgresService < Service::BaseService
   def default_environment_variables
     {
       'POSTGRES_PASSWORD' => SecureRandom.hex,

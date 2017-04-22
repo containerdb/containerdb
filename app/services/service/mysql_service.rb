@@ -1,4 +1,4 @@
-class MysqlService < BaseService
+class Service::MysqlService < Service::BaseService
   def default_environment_variables
     {
       'MYSQL_ROOT_PASSWORD' => SecureRandom.hex,
