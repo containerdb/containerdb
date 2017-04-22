@@ -16,14 +16,14 @@
   = f.input :name
 
   - unless @service.hosted?
-    - default_environment_variables = ::EnvironmentVariablesDecorator.new(@service.service.default_environment_variables)
+    - default_environment_variables = ::EnvironmentVariablesDecorator.new(@service.default_environment_variables)
     = f.input :port
 
     %h1.lead Environment Variables
 
     = f.simple_fields_for(default_environment_variables) do |field|
       - default_environment_variables.each do |key, value|
-        = field.input key, input_html: { value: nil }, label: key.to_s
+        = field.input key, label: key.to_s
 
 
   = f.button :submit

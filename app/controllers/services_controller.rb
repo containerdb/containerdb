@@ -30,7 +30,7 @@ class ServicesController < ApplicationController
   def create_params
     # Create a temp service so that we can get the default environment variable keys.
     # @todo there will be a cleaner way to do this
-    service_env_keys = Service.new(params.require(:service).permit(:service_type)).service.default_environment_variables.keys
+    service_env_keys = Service.new(params.require(:service).permit(:service_type, :hosted)).default_environment_variables.keys
 
     params.require(:service).permit(:service_type, :name, :hosted, :port, environment_variables: service_env_keys)
   end

@@ -12,7 +12,10 @@ class Service < ApplicationRecord
   validates :image, presence: true, inclusion: { in: Service::SERVICES.values }, if: :hosted?
   validate :validate_environment_variables
 
-  after_initialize :assign_port, :assign_environment_variables, :assign_image, if: :hosted?
+  after_initialize :assign_port, if: :hosted?
+  after_initialize :assign_image, if: :hosted?
+  after_initialize :assign_environment_variables
+
   before_destroy :destroy_container
 
   has_many :backups
@@ -36,6 +39,25 @@ class Service < ApplicationRecord
     end
   rescue Docker::Error::NotFoundError
     nil
+  end
+
+  def default_environment_variables
+    variables = service.default_environment_variables
+
+    # If this is an external service, we dont want any default variable assignments
+    # We also want to be able to porvide a host
+    unless hosted?
+      variables.merge!('HOST' => nil)
+      variables.each { |k, v| variables[k] = nil }
+    end
+
+    variables
+  end
+
+  def required_environment_variables
+    variables = service.required_environment_variables
+    variables += ['HOST'] unless hosted?
+    variables
   end
 
   def connection_string
@@ -90,7 +112,7 @@ class Service < ApplicationRecord
   end
 
   def validate_environment_variables
-    service.required_environment_variables.each do |variable|
+    required_environment_variables.each do |variable|
       errors.add(:environment_variables, "#{variable} is required") unless environment_variables[variable].present?
     end
   end
