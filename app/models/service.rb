@@ -115,7 +115,7 @@ class Service < ApplicationRecord
   end
 
   def assign_environment_variables
-    self.environment_variables = service.default_environment_variables.merge(self.environment_variables)
+    self.environment_variables = default_environment_variables.merge(self.environment_variables)
   end
 
   def validate_environment_variables
