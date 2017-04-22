@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   devise_for :users
   root to: redirect('/services')
 
+  resources :storage_providers
+
   resources :services do
     resources :backups
 

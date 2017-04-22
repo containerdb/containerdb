@@ -108,8 +108,7 @@ class Service < ApplicationRecord
 
   def backup_storage_provider_service
     return nil unless storage_provider_id.present?
-
-    @_storage_provider_service ||= "StorageProvider::#{storage_provider.provider.capitalize}Provider".constantize.new(self)
+    storage_provider.storage_provider_service
   end
 
   protected
