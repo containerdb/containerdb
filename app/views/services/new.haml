@@ -14,6 +14,7 @@
   = f.input :service_type, as: :hidden
   = f.input :image, as: :hidden
   = f.input :name
+  = f.input :backup_storage_provider, collection: StorageProvider.all, include_blank: false, label: 'Backup Storage Provider' 
 
   - default_environment_variables = ::EnvironmentVariablesDecorator.new(@service.default_environment_variables)
   = f.input :port

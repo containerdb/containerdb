@@ -22,7 +22,7 @@ class Service < ApplicationRecord
   before_destroy :destroy_container, if: :hosted?
 
   has_many :backups
-  belongs_to :storage_provider
+  belongs_to :backup_storage_provider
 
   def backup(inline: false)
     if inline
@@ -102,6 +102,12 @@ class Service < ApplicationRecord
 
   def service
     @_service ||= "Service::#{service_type.capitalize}Service".constantize.new(self)
+  end
+
+  def backup_storage_provider_service
+    return nil unless storage_provider_id.present?
+
+    @_storage_provider_service ||= "StorageProvider::#{storage_provider.provider.capitalize}Provider".constantize.new(self)
   end
 
   protected
