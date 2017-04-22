@@ -18,7 +18,7 @@
             %ul.nav.navbar-nav.navbar-right
               %li
                 %a
-                  Docker: #{Docker.url} v#{Docker.version['Version']}
+                  Docker: #{docker_version}
               %li
                 = link_to 'Logout', destroy_user_session_path, method: :delete
 
