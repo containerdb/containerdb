@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170416005732) do
+ActiveRecord::Schema.define(version: 20170422100803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20170416005732) do
     t.string   "service_type"
     t.string   "name"
     t.boolean  "locked",                default: false
+    t.boolean  "hosted",                default: true
   end
 
   create_table "users", force: :cascade do |t|

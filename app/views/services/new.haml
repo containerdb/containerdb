@@ -7,7 +7,12 @@
     Create a #{@service.service_type} Service
 
 = simple_form_for @service, html: { class: 'well' } do |f|
+  = f.input :hosted, as: :hidden
   = f.input :service_type, as: :hidden
   = f.input :image, as: :hidden
   = f.input :name
+
+  - unless @service.hosted?
+    = f.input :port, input_html: { value: '' }
+
   = f.button :submit

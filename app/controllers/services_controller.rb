@@ -12,7 +12,7 @@ class ServicesController < ApplicationController
 
   def new
     return redirect_to choose_services_path unless params[:service].present?
-    @service = Service.new(service_type: params[:service])
+    @service = Service.new(service_type: params[:service], hosted: params[:hosted])
   end
 
   def create
