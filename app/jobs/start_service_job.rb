@@ -1,6 +1,7 @@
 class StartServiceJob < ApplicationJob
   def perform(service)
     return if service.container_id
+    fail 'Cannot be performed on an external service' unless service.hosted?
 
     Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
     image = Docker::Image.create(

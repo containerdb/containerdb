@@ -11,11 +11,11 @@ class PostgresService < BaseService
   end
 
   def connection_string
-    "postgres://#{service.environment_variables['POSTGRES_USER']}:#{service.environment_variables['POSTGRES_PASSWORD']}@#{ENV['HOST']}:#{service.port}"
+    "postgres://#{service.environment_variables['POSTGRES_USER']}:#{service.environment_variables['POSTGRES_PASSWORD']}@#{service.host}:#{service.port}"
   end
 
   def connection_command
-    "PGPASSWORD='#{service.environment_variables['POSTGRES_PASSWORD']}' psql -U #{service.environment_variables['POSTGRES_USER']} -h #{ENV['HOST']} -p #{service.port}"
+    "PGPASSWORD='#{service.environment_variables['POSTGRES_PASSWORD']}' psql -U #{service.environment_variables['POSTGRES_USER']} -h #{service.host} -p #{service.port}"
   end
 
   def container_port
@@ -25,7 +25,7 @@ class PostgresService < BaseService
   def backup_environment_variables
     {
       DB_USER: service.environment_variables['POSTGRES_USER'],
-      DB_HOST: ENV['HOST'],
+      DB_HOST: service.host,
       DB_PORT: service.port,
       DB_PASS: service.environment_variables['POSTGRES_PASSWORD'],
     }

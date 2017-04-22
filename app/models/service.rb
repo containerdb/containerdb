@@ -9,11 +9,14 @@ class Service < ApplicationRecord
   validates :name, presence: true
   validates :port, uniqueness: true, presence: true
   validates :service_type, presence: true, inclusion: { in: Service::SERVICES.keys.map(&:to_s) }
-  validates :image, presence: true, inclusion: { in: Service::SERVICES.values }
+  validates :image, presence: true, inclusion: { in: Service::SERVICES.values }, if: :hosted?
   validate :validate_environment_variables
 
-  after_initialize :assign_port, :assign_environment_variables, :assign_image
-  before_destroy :destroy_container
+  after_initialize :assign_port, if: :hosted?
+  after_initialize :assign_image, if: :hosted?
+  after_initialize :assign_environment_variables
+
+  before_destroy :destroy_container, if: :hosted?
 
   has_many :backups
 
@@ -38,6 +41,25 @@ class Service < ApplicationRecord
     nil
   end
 
+  def default_environment_variables
+    variables = service.default_environment_variables
+
+    # If this is an external service, we dont want any default variable assignments
+    # We also want to be able to porvide a host
+    unless hosted?
+      variables.merge!('HOST' => nil)
+      variables.each { |k, v| variables[k] = nil }
+    end
+
+    variables
+  end
+
+  def required_environment_variables
+    variables = service.required_environment_variables
+    variables += ['HOST'] unless hosted?
+    variables
+  end
+
   def connection_string
     service.connection_string
   end
@@ -56,6 +78,10 @@ class Service < ApplicationRecord
 
   def backup_file_name
     service.backup_file_name
+  end
+
+  def host
+    environment_variables['HOST'] || ENV['HOST']
   end
 
   def can_backup?
@@ -90,7 +116,7 @@ class Service < ApplicationRecord
   end
 
   def validate_environment_variables
-    service.required_environment_variables.each do |variable|
+    required_environment_variables.each do |variable|
       errors.add(:environment_variables, "#{variable} is required") unless environment_variables[variable].present?
     end
   end

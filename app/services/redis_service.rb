@@ -10,11 +10,11 @@ class RedisService < BaseService
   end
 
   def connection_string
-    "redis://:#{service.environment_variables['REDIS_PASS']}@#{ENV['HOST']}:#{service.port}"
+    "redis://:#{service.environment_variables['REDIS_PASS']}@#{service.host}:#{service.port}"
   end
 
   def connection_command
-    "redis-cli -h #{ENV['HOST']} -a #{service.environment_variables['REDIS_PASS']} -p #{service.port}"
+    "redis-cli -h #{service.host} -a #{service.environment_variables['REDIS_PASS']} -p #{service.port}"
   end
 
   def container_port
@@ -23,7 +23,7 @@ class RedisService < BaseService
 
   def backup_environment_variables
     {
-      REDIS_HOST: ENV['HOST'],
+      REDIS_HOST: service.host,
       REDIS_PASSWORD: service.environment_variables['REDIS_PASS'],
       REDIS_PORT: service.port,
     }

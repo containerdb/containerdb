@@ -8,11 +8,14 @@
 %table.table.table-striped.well
   %tr
     %th Service
+    %th Location
     %th Image
   - Service::SERVICES.each do |service, image|
     %tr
+      %td= service
       %td
-        = link_to service, new_service_path(service: service)
+        = link_to 'Hosted', new_service_path(service: service, hosted: true), class: 'btn btn-xs btn-primary'
+        = link_to 'External', new_service_path(service: service, hosted: false), class: 'btn btn-xs btn-primary'
       %td
         = image
         \:latest
