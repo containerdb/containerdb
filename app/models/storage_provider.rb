@@ -1,8 +1,14 @@
 class StorageProvider < ApplicationRecord
 
+  PROVIDERS = ['s3']
+
   validates :name, presence: true
-  validates :provider, presence: true, inclusion: { in: ['s3'] }
+  validates :provider, presence: true, inclusion: { in: PROVIDERS }
   validate :validate_environment_variables
+
+  def label_method
+    "[#{provider}] #{name}"
+  end
 
   def storage_provider_service
     @_storage_provider_service ||= "StorageProvider::#{provider.to_s.capitalize}Provider".constantize.new

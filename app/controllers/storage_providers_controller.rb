@@ -4,8 +4,12 @@ class StorageProvidersController < ApplicationController
     @providers = StorageProvider.all.order(created_at: :desc)
   end
 
+  def choose
+  end
+
   def new
-    @provider = StorageProvider.new(provider: :s3)
+    return redirect_to choose_storage_providers_path unless params[:provider].present?
+    @provider = StorageProvider.new(provider: params[:provider])
   end
 
   def create
