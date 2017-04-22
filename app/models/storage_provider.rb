@@ -1,0 +1,2 @@
+class StorageProvider < ApplicationRecord
+end
