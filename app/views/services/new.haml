@@ -8,7 +8,7 @@
 
 = simple_form_for @service, html: { class: 'well' } do |f|
 
-  = f.error_notification message: f.object.errors.full_messages.to_sentence
+  = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
 
   = f.input :hosted, as: :hidden
   = f.input :service_type, as: :hidden
