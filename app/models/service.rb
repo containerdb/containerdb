@@ -120,7 +120,7 @@ class Service < ApplicationRecord
 
   def validate_environment_variables
     required_environment_variables.each do |variable|
-      errors.add(:environment_variables, "#{variable} is required") unless environment_variables[variable].present?
+      errors.add(:environment_variable, "\"#{variable}\" is required") unless environment_variables[variable].present?
     end
   end
 end
