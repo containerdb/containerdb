@@ -80,6 +80,10 @@ class Service < ApplicationRecord
     service.backup_file_name
   end
 
+  def host
+    environment_variables['HOST'] || ENV['HOST']
+  end
+
   def can_backup?
     backup_environment_variables.present?
   rescue NotImplementedError

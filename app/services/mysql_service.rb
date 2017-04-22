@@ -10,11 +10,11 @@ class MysqlService < BaseService
   end
 
   def connection_string
-    "mysql://root:#{service.environment_variables['MYSQL_ROOT_PASSWORD']}@#{ENV['HOST']}:#{service.port}"
+    "mysql://root:#{service.environment_variables['MYSQL_ROOT_PASSWORD']}@#{service.host}:#{service.port}"
   end
 
   def connection_command
-    "mysql -h#{ENV['HOST']} -uroot -p#{service.environment_variables['MYSQL_ROOT_PASSWORD']} -P#{service.port}"
+    "mysql -h#{service.host} -uroot -p#{service.environment_variables['MYSQL_ROOT_PASSWORD']} -P#{service.port}"
   end
 
   def container_port
@@ -24,7 +24,7 @@ class MysqlService < BaseService
   def backup_environment_variables
     {
       DB_USER: 'root',
-      DB_HOST: ENV['HOST'],
+      DB_HOST: service.host,
       DB_PORT: service.port,
       DB_PASS: service.environment_variables['MYSQL_ROOT_PASSWORD'],
     }
