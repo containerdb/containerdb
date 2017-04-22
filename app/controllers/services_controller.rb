@@ -16,13 +16,22 @@ class ServicesController < ApplicationController
   end
 
   def create
-    @service = Service.new(params.require(:service).permit(:service_type, :name, :hosted, :port, :environment_variables))
+    @service = Service.new(create_params)
     if @service.save
       StartServiceJob.perform_later(@service) if @service.hosted?
       redirect_to services_path
     else
-      # raise @service.errors.to_json
       render :new
     end
+  end
+
+  private
+
+  def create_params
+    # Create a temp service so that we can get the default environment variable keys.
+    # @todo there will be a cleaner way to do this
+    service_env_keys = Service.new(params.require(:service).permit(:service_type)).service.default_environment_variables.keys
+
+    params.require(:service).permit(:service_type, :name, :hosted, :port, environment_variables: service_env_keys)
   end
 end
