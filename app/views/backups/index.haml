@@ -7,6 +7,11 @@
     = @service.name
   %li Backups
 
+- if @service.backup_storage_provider.present?
+  %p.alert.alert-success This service is being backed up to #{@service.backup_storage_provider.provider.titleize}
+- else
+  %p.alert.alert-danger There is no Backup Storage Provider connected
+
 - if @service.backups.any?
   %table.table.table-striped
     %tr
@@ -25,4 +30,5 @@
         %td
           = link_to 'Destroy', service_backup_path(@service, backup), method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }
 
-= link_to '+ Backup', service_backups_path(@service), method: :create, class: 'btn btn-primary btn-xs'
+- if @service.backup_storage_provider.present?
+  = link_to '+ Backup', service_backups_path(@service), method: :create, class: 'btn btn-primary btn-xs'

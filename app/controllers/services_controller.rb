@@ -1,7 +1,7 @@
 class ServicesController < ApplicationController
 
   def index
-    @services = Service.all.order(created_at: :desc)
+    @services = Service.eager_load(:backup_storage_provider).order(created_at: :desc)
   end
 
   def destroy
@@ -32,6 +32,10 @@ class ServicesController < ApplicationController
     # @todo there will be a cleaner way to do this
     service_env_keys = Service.new(params.require(:service).permit(:service_type, :hosted)).default_environment_variables.keys
 
-    params.require(:service).permit(:service_type, :name, :hosted, :port, environment_variables: service_env_keys)
+    params.require(:service).permit(
+      :service_type, :name, :hosted,
+      :port, :backup_storage_provider_id,
+      environment_variables: service_env_keys,
+    )
   end
 end
