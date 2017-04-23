@@ -12,7 +12,7 @@
       %th Actions
     - @services.each do |service|
       %tr
-        %td= service.name
+        %td= link_to service.name, edit_service_path(service)
         %td
           = service.service_type
           %em.text-muted
