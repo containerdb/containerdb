@@ -29,7 +29,7 @@
           - else
             %em.text-muted n/a
         %td= service.port
-        %td= service.backup_storage_provider.try(:provider) || '-'
+        %td= service.backup_storage_provider.try(:label_method) || '-'
         %td
           %button.btn.btn-success.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
           - if service.can_backup?
