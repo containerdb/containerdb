@@ -7,7 +7,6 @@ docker pull tutum/redis
 
 # Setup for the first time
 if ! containerdb config:get DATABASE_URL 2>/dev/null; then
-  # Get the configs from the user. This may not work, testing now
   echo ''
   echo 'Lets configure Container DB'
   echo ''
