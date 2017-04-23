@@ -11,6 +11,8 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo ''
   echo 'Lets configure Container DB'
   echo ''
+
+  # There is probably a better way to get the external hostname, but this works nicely for now
   HOST_IP=`curl ipinfo.io/ip 2>/dev/null;`
 
   while [[ -z "$HOST_NAME" ]]
