@@ -1,10 +1,9 @@
 = content_for :title, "Create an #{@provider.provider.titleize} Storage Provider"
 
 %ol.breadcrumb
-  %li
-    = link_to 'Storage Providers', storage_providers_path
-  %li.active
-    Create an #{@provider.provider.titleize} Storage Provider
+  %li= link_to 'Storage Providers', storage_providers_path
+  %li= content_for :title
+
 
 = simple_form_for @provider, html: { class: 'well' } do |f|
 

@@ -1,9 +1,8 @@
 = content_for :title, 'Choose a Service'
 
 %ol.breadcrumb
-  %li
-    = link_to 'Services', services_path
-  %li.active Choose a Service
+  %li= link_to 'Services', services_path
+  %li= content_for :title
 
 %table.table.table-striped.well
   %tr

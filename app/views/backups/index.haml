@@ -1,10 +1,8 @@
 = content_for :title, "#{@service.name} Backups"
 
 %ol.breadcrumb
-  %li
-    = link_to 'Services', services_path
-  %li
-    = @service.name
+  %li= link_to 'Services', services_path
+  %li= @service.name
   %li Backups
 
 - if @service.backup_storage_provider.present?

@@ -1,10 +1,9 @@
 = content_for :title, "Create a #{@service.service_type} Service"
 
 %ol.breadcrumb
-  %li
-    = link_to 'Services', services_path
-  %li.active
-    Create a #{@service.service_type} Service
+  %li= link_to 'Services', services_path
+  %li= content_for :title
+
 
 = simple_form_for @service, html: { class: 'well' } do |f|
 
