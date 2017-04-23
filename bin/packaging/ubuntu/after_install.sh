@@ -95,9 +95,10 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb run rails r "Service.create!(backup_storage_provider_id: StorageProvider.first.try(:id), locked: true, service_type: :postgres, name: 'containerdb_postgres', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
   sudo containerdb run rails r "Service.create!(backup_storage_provider_id: StorageProvider.first.try(:id), locked: true, service_type: :redis, name: 'containerdb_redis', port: $REDIS_PORT, container_id: '$REDIS_CONTAINER_ID', environment_variables: { 'REDIS_PASS' => '$REDIS_PASS' })"
 
-  # Backup Postgres
+  # Backup Postgres and Redis for the first time
   if $configured_backups; then
     sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
+    sudo containerdb run rails r "Service.where(name: 'containerdb_redis', locked: true).first.backup(inline: true)"
   fi
 
   cat > /etc/nginx/sites-available/default <<EOF
