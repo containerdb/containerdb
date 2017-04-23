@@ -6,7 +6,7 @@
   %li Backups
 
 - if @service.backup_storage_provider.present?
-  %p.alert.alert-success This service is being backed up to #{@service.backup_storage_provider.label_method}
+  %p.alert.alert-success This service is being backed up to <b>#{@service.backup_storage_provider.label_method}</b>
 - else
   %p.alert.alert-danger There is no Backup Storage Provider connected
 
