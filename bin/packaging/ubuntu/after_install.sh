@@ -79,8 +79,8 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@127.0.0.1:$DB_PORT"
 
   # Scale up the app
-  sudo containerdb scale web=1
-  sudo containerdb scale sidekiq=1
+  sudo containerdb scale web=2
+  sudo containerdb scale sidekiq=2
   sudo service containerdb restart
 
   sudo containerdb run rails db:create db:migrate
