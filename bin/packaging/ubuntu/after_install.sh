@@ -31,7 +31,8 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   done
 
   read -p "Do you want to setup Amazon S3 backups? (y/N) " -n 1 -r -e SETUP_S3
-  if [[ $SETUP_S3 =~ ^[Yy]$ ]] then
+  if [[ $SETUP_S3 =~ ^[Yy]$ ]]
+  then
     echo
     echo 'Please enter your AWS credentials for backups'
 
