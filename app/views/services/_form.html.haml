@@ -1,0 +1,21 @@
+= simple_form_for @service, html: { class: 'well' } do |f|
+
+  = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
+
+  = f.input :name
+  = f.input :backup_storage_provider_id, collection: StorageProvider.all, label: 'Backup Storage Provider', label_method: :label_method
+
+  - if @service.new_record?
+    = f.input :hosted, as: :hidden
+    = f.input :service_type, as: :hidden
+    = f.input :image, as: :hidden
+    = f.input :port
+
+    %h1.lead Environment Variables
+    - environment_variables = ::EnvironmentVariablesDecorator.new(@service.default_environment_variables.merge(@service.environment_variables))
+    = f.simple_fields_for(environment_variables) do |field|
+      - environment_variables.each do |key, value|
+        = field.input key, label: key.to_s
+
+
+  = f.button :submit

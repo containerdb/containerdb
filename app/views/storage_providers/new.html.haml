@@ -1,0 +1,22 @@
+= content_for :title, "Create an #{@provider.provider.titleize} Storage Provider"
+
+%ol.breadcrumb
+  %li= link_to 'Storage Providers', storage_providers_path
+  %li= content_for :title
+
+
+= simple_form_for @provider, html: { class: 'well' } do |f|
+
+  = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
+
+  = f.input :name
+  = f.input :provider, as: :hidden
+
+  %h1.lead Environment Variables
+
+  - environment_variables = ::EnvironmentVariablesDecorator.new(@provider.default_environment_variables.merge(@provider.environment_variables))
+  = f.simple_fields_for(environment_variables) do |field|
+    - environment_variables.each do |key, value|
+      = field.input key, label: key.to_s
+
+  = f.button :submit

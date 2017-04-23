@@ -1,5 +1,6 @@
 %ol.breadcrumb
   %li Services
+
 - if @services.any?
   %table.table.table-striped
     %tr
@@ -7,10 +8,11 @@
       %th Type
       %th Container
       %th Port
+      %th Backup Provider
       %th Actions
     - @services.each do |service|
       %tr
-        %td= service.name
+        %td= link_to service.name, edit_service_path(service)
         %td
           = service.service_type
           %em.text-muted
@@ -27,6 +29,7 @@
           - else
             %em.text-muted n/a
         %td= service.port
+        %td= service.backup_storage_provider.try(:provider) || '-'
         %td
           %button.btn.btn-success.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
           - if service.can_backup?

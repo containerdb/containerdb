@@ -11,6 +11,8 @@ class Service < ApplicationRecord
   validates :port, presence: true
   validates :port, uniqueness: { scope: :hosted }, if: :hosted?
 
+  validates :backup_storage_provider, presence: true, allow_nil: true
+
   validates :service_type, presence: true, inclusion: { in: Service::SERVICES.keys.map(&:to_s) }
   validates :image, presence: true, inclusion: { in: Service::SERVICES.values }, if: :hosted?
   validate :validate_environment_variables
@@ -22,6 +24,7 @@ class Service < ApplicationRecord
   before_destroy :destroy_container, if: :hosted?
 
   has_many :backups
+  belongs_to :backup_storage_provider, class_name: 'StorageProvider', optional: true
 
   def backup(inline: false)
     if inline
@@ -88,7 +91,7 @@ class Service < ApplicationRecord
   end
 
   def can_backup?
-    backup_environment_variables.present?
+    backup_environment_variables.present? && backup_storage_provider.present?
   rescue NotImplementedError
     false
   end
@@ -100,7 +103,7 @@ class Service < ApplicationRecord
   end
 
   def service
-    @_service ||= "#{service_type.capitalize}Service".constantize.new(self)
+    @_service ||= "Service::#{service_type.capitalize}Service".constantize.new(self)
   end
 
   protected

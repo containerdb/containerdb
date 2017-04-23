@@ -1,0 +1,7 @@
+= content_for :title, "Edit #{@service.name}"
+
+%ol.breadcrumb
+  %li= link_to 'Services', services_path
+  %li.active= content_for(:title)
+
+= render 'form'

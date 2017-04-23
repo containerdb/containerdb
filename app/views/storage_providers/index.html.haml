@@ -1,0 +1,16 @@
+%ol.breadcrumb
+  %li Storage Providers
+
+- if @providers.any?
+  %table.table.table-striped
+    %tr
+      %th Name
+      %th Provider
+    - @providers.each do |provider|
+      %tr
+        %td= provider.name
+        %td= provider.provider
+- else
+  %p.alert.alert-info You have not launched any services yet
+
+= link_to '+ Create', new_storage_provider_path, class: 'btn btn-primary btn-xs'

@@ -1,7 +1,7 @@
 class ServicesController < ApplicationController
 
   def index
-    @services = Service.all.order(created_at: :desc)
+    @services = Service.eager_load(:backup_storage_provider).order(created_at: :desc)
   end
 
   def destroy
@@ -25,13 +25,36 @@ class ServicesController < ApplicationController
     end
   end
 
+  def update
+    @service = Service.find(params[:id])
+    if @service.update(update_params)
+      redirect_to services_path
+    else
+      render :edit
+    end
+  end
+
+  def edit
+    @service = Service.find(params[:id])
+  end
+
   private
 
+  def update_params
+    params.require(:service).permit(:name, :backup_storage_provider_id)
+  end
+
   def create_params
+    params.require(:service).permit(
+      :service_type, :name, :hosted,
+      :port, :backup_storage_provider_id,
+      environment_variables: service_env_keys,
+    )
+  end
+
+  def service_env_keys
     # Create a temp service so that we can get the default environment variable keys.
     # @todo there will be a cleaner way to do this
-    service_env_keys = Service.new(params.require(:service).permit(:service_type, :hosted)).default_environment_variables.keys
-
-    params.require(:service).permit(:service_type, :name, :hosted, :port, environment_variables: service_env_keys)
+    Service.new(params.require(:service).permit(:service_type, :hosted)).default_environment_variables.keys
   end
 end

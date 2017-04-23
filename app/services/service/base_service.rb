@@ -1,4 +1,4 @@
-class BaseService
+class Service::BaseService
 
   attr_reader :service
   def initialize(service)

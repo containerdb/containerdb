@@ -13,14 +13,21 @@
         .navbar-header
           %a.navbar-brand{href: "/"}
             Container DB
-        - if user_signed_in?
-          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        #navbar.navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            %li
+              = link_to 'Services', services_path
+            %li
+              = link_to 'Storage Providers', storage_providers_path
+
+          - if user_signed_in?
             %ul.nav.navbar-nav.navbar-right
-              %li
-                %a
-                  Docker: #{docker_version}
-              %li
-                = link_to 'Logout', destroy_user_session_path, method: :delete
+              %ul.nav.navbar-nav.navbar-right
+                %li
+                  %a
+                    Docker: #{docker_version}
+                %li
+                  = link_to 'Logout', destroy_user_session_path, method: :delete
 
     .container
       = yield

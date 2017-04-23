@@ -1,0 +1,15 @@
+= content_for :title, 'Choose a Provider'
+
+%ol.breadcrumb
+  %li= link_to 'Services', services_path
+  %li= content_for :title
+
+
+%table.table.table-striped.well
+  %tr
+    %th Service
+    %th Create
+  - StorageProvider::PROVIDERS.each do |provider|
+    %tr
+      %td= provider
+      %td= link_to 'Create', new_storage_provider_path(provider: provider), class: 'btn btn-xs btn-primary'
