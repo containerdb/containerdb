@@ -30,7 +30,8 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   do
     read -s -p "Admin Password: " -e ADMIN_PASSWORD
   done
-
+  echo
+  
   echo
   read -p "Do you want to setup Amazon S3 backups? (y/N) " -n 1 -r -e SETUP_S3
   if [[ $SETUP_S3 =~ ^[Yy]$ ]]
