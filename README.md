@@ -16,16 +16,16 @@ Create databases instantly, with automatic backups. Perfect for prototyping and 
 
 ```
 # Add the Docker Repo
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+wget -qO - https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
 # Add the Container DB Repo
 wget -qO - https://deb.packager.io/key | sudo apt-key add -
-echo "deb https://deb.packager.io/gh/containerdb/containerdb xenial master" | sudo tee /etc/apt/sources.list.d/containerdb.list
+sudo add-apt-repository "deb [arch=amd64] https://deb.packager.io/gh/containerdb/containerdb $(lsb_release -cs) master"
 
 # Install Container DB
 sudo apt-get update
-sudo apt-get install containerdb
+sudo apt-get install containerdb -y
 ```
 
 ### Databases
