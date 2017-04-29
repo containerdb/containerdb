@@ -1,6 +1,10 @@
-class BackupJob < ApplicationJob
+class BackupWorker
 
-  def perform(backup)
+  include Sidekiq::Worker
+
+  def perform(backup_id)
+    backup = Backup.find(backup_id)
+
     Rails.logger.info("Starting backup for #{backup.service.id}")
 
     backup_storage_provider = backup.service.backup_storage_provider

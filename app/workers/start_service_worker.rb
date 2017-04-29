@@ -1,5 +1,10 @@
-class StartServiceJob < ApplicationJob
-  def perform(service)
+class StartServiceWorker
+
+  include Sidekiq::Worker
+
+  def perform(service_id)
+    service = Service.find(service_id)
+
     return if service.container_id
     fail 'Cannot be performed on an external service' unless service.hosted?
 

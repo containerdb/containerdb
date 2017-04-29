@@ -28,9 +28,9 @@ class Service < ApplicationRecord
 
   def backup(inline: false)
     if inline
-      BackupJob.perform_now(self.backups.create)
+      BackupWorker.new.perform(self.backups.create.id)
     else
-      BackupJob.perform_later(self.backups.create)
+      BackupWorker.perform_async(self.backups.create.id)
     end
   end
 
