@@ -33,14 +33,11 @@ class StartServiceJob < ApplicationJob
     )
 
     Rails.logger.info("Starting Container #{container.id} for Service ##{service.id}")
-    container.start
-
-    Rails.logger.info("Waiting for Container #{container.id} for Service ##{service.id}")
 
     begin
       if container.tap(&:start).wait(60)['StatusCode'].zero?
         service.update!(container_id: container.id)
-        Rails.logger.info("Started Container #{container.id} for Service ##{service.id}")
+        Rails.logger.info("Finished starting Container #{container.id} for Service ##{service.id}")
       else
         Rails.logger.error("Container failed to start for Service ##{service.id}")
       end
