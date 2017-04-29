@@ -1,7 +1,7 @@
 class Service < ApplicationRecord
 
   SERVICES = {
-    redis: 'tutum/redis',
+    redis: 'containerdb/redis',
     postgres: 'postgres',
     mysql: 'mysql'
   }
