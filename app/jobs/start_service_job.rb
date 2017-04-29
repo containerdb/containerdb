@@ -26,10 +26,10 @@ class StartServiceJob < ApplicationJob
           "#{service.service.container_port}/tcp" => [
             {
               'HostPort' => service.port.to_s,
-            },
+            }
           ]
-        },
-      },
+        }
+      }
     )
 
     Rails.logger.info("Starting Container #{container.id} for Service ##{service.id}")
