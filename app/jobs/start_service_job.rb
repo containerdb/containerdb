@@ -37,10 +37,19 @@ class StartServiceJob < ApplicationJob
     container.start
 
     Rails.logger.info("Waiting for Container #{container.id} for Service ##{service.id}")
-    container.wait
-    Rails.logger.info("Started Container #{container.id} for Service ##{service.id}")
 
-    service.update!(container_id: container.id)
+    begin
+      if container.tap(&:start).wait(60)['StatusCode'].zero?
+        service.update!(container_id: container.id)
+        Rails.logger.info("Started Container #{container.id} for Service ##{service.id}")
+      else
+        Rails.logger.error("Container failed to start for Service ##{service.id}")
+      end
+    rescue Docker::Error::TimeoutError => e
+      Rails.logger.error("Container timed out for Service ##{service.id}")
+      Rails.logger.debug(e)
+    end
+
     Rails.logger.debug(container)
   end
 end
