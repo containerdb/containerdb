@@ -5,14 +5,13 @@ class StartServiceJob < ApplicationJob
 
     # @note disabled as it's just hanging
     #Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
-    #image = Docker::
-    #  .create(
+    #image = Docker::Image.create(
     #  'fromImage' => service.image,
     #)
 
     #Rails.logger.info("Pulled Image #{service.image} for Service ##{service.id}")
     #Rails.logger.debug(image)
-    
+
     Rails.logger.info("Creating Container for Service ##{service.id}")
 
     container = Docker::Container.create(
