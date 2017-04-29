@@ -3,7 +3,7 @@ chown containerdb /var/run/docker.sock
 docker pull containerdb/backup-restore
 docker pull postgres
 docker pull mysql
-docker pull tutum/redis
+docker pull containerdb/redis
 
 # Setup for the first time
 if ! containerdb config:get DATABASE_URL 2>/dev/null; then
@@ -31,7 +31,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
     read -s -p "Admin Password: " -e ADMIN_PASSWORD
   done
   echo
-  
+
   echo
   read -p "Do you want to setup Amazon S3 backups? (y/N) " -n 1 -r -e SETUP_S3
   if [[ $SETUP_S3 =~ ^[Yy]$ ]]
@@ -73,7 +73,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo 'Setting up a Redis container'
   REDIS_PORT=8475
   REDIS_PASS=`date +%s | sha256sum | base64 | head -c 32 ; echo`
-  REDIS_CONTAINER_ID=`docker create --name containerdb_redis -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS tutum/redis`
+  REDIS_CONTAINER_ID=`docker create --name containerdb_redis -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS containerdb/redis`
   docker start containerdb_redis
   sleep 5 # @todo wait for the redis container to start
   echo
