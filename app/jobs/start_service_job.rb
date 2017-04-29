@@ -3,13 +3,16 @@ class StartServiceJob < ApplicationJob
     return if service.container_id
     fail 'Cannot be performed on an external service' unless service.hosted?
 
-    Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
-    image = Docker::Image.create(
-      'fromImage' => service.image,
-    )
+    # @note disabled as it's just hanging
+    #Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
+    #image = Docker::
+    #  .create(
+    #  'fromImage' => service.image,
+    #)
 
-    Rails.logger.info("Pulled Image #{service.image} for Service ##{service.id}")
-    Rails.logger.debug(image)
+    #Rails.logger.info("Pulled Image #{service.image} for Service ##{service.id}")
+    #Rails.logger.debug(image)
+    
     Rails.logger.info("Creating Container for Service ##{service.id}")
 
     container = Docker::Container.create(
