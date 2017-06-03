@@ -10,5 +10,10 @@ user1 = User.create!(
 
 StorageProvider.create!(
   provider: :s3,
-  name: 'Test'
+  name: 'Test',
+  environment_variables: {
+    'AWS_ACCESS_TOKEN': 'nothing',
+    'AWS_SECRET_KEY': 'nothing',
+    'AWS_BUCKET_NAME': 'nothing',
+  }
 )
