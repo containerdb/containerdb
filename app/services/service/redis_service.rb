@@ -21,6 +21,10 @@ class Service::RedisService < Service::BaseService
     6379
   end
 
+  def data_directory
+    '/data'
+  end
+
   def backup_environment_variables
     {
       REDIS_HOST: service.host,
