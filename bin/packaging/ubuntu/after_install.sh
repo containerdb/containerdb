@@ -106,12 +106,15 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   sudo containerdb run rails r "User.create!(email: '$ADMIN_EMAIL', password: '$ADMIN_PASSWORD')"
   echo
 
-  # Create the storage provider
   if $configured_s3_backups; then
     echo 'Save the S3 Storage Provider'
     sudo containerdb run rails r "StorageProvider.create!(provider: :s3, name: 's3-$AWS_BUCKET_NAME', environment_variables: { 'AWS_BUCKET_NAME' => '$AWS_BUCKET_NAME', 'AWS_SECRET_KEY' => '$AWS_SECRET_KEY', 'AWS_ACCESS_TOKEN' => '$AWS_ACCESS_TOKEN'})"
     echo
   fi
+
+  echo 'Save the Local Storage Provider'
+  sudo containerdb run rails r "StorageProvider.create!(provider: :local, name: 'Local', environment_variables: { 'DIRECTORY' => '$DATA_DIRECTORY/backups'})"
+  echo
 
   # Add the Postgres and Redis containers to the app so it can self manage them
   echo 'Save the Redis and Postgres Servies'
