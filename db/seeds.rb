@@ -10,10 +10,18 @@ user1 = User.create!(
 
 StorageProvider.create!(
   provider: :s3,
-  name: 'Test',
+  name: 'Test S3',
   environment_variables: {
     'AWS_ACCESS_TOKEN': 'nothing',
     'AWS_SECRET_KEY': 'nothing',
     'AWS_BUCKET_NAME': 'nothing',
+  }
+)
+
+StorageProvider.create!(
+  provider: :local,
+  name: 'Test Local',
+  environment_variables: {
+    'DIRECTORY': '/tmp/containerdb_backups'
   }
 )

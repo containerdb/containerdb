@@ -1,6 +1,6 @@
 class StorageProvider < ApplicationRecord
 
-  PROVIDERS = ['s3']
+  PROVIDERS = ['s3', 'local']
 
   validates :name, presence: true
   validates :provider, presence: true, inclusion: { in: PROVIDERS }

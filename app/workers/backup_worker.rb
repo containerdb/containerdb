@@ -21,15 +21,26 @@ class BackupWorker
     })
 
     environment_variables = environment_variables.merge(backup_storage_provider.environment_variables).stringify_keys
+
+    # Add the service into the backup directory
+    if backup_storage_provider.provider.to_sym == :local
+      environment_variables['DIRECTORY'] = environment_variables['DIRECTORY'] + "/#{backup.service.image.parameterize}-#{backup.service.id}"
+    end
+
     docker_env_vars = environment_variables.map {|key, value| "#{key}=#{value}" }
 
     Rails.logger.info(docker_env_vars)
     Rails.logger.info("sh #{backup.service.backup_script_path}")
 
+    backup_container_params = { 'Env' => docker_env_vars }
+    backup_container_params['HostConfig'] = {
+      'Binds' => ["#{environment_variables['DIRECTORY']}:/backups"],
+    } if backup_storage_provider.provider.to_sym == :local
+
+    Rails.logger.info(backup_container_params)
+
     image = Docker::Image.get('containerdb/backup-restore')
-    container = image.run("sh #{backup.service.backup_script_path}", {
-      'Env' => docker_env_vars
-    })
+    container = image.run("sh #{backup.service.backup_script_path}", backup_container_params)
 
     response = container.wait(3600)
     Rails.logger.info(container.logs(stderr: true))
