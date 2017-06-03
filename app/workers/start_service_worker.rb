@@ -20,15 +20,14 @@ class StartServiceWorker
     Rails.logger.info("Creating Container for Service ##{service.id}")
 
     container_name = "#{service.image.parameterize}-#{service.id}"
-
-    container = Docker::Container.create(
+    container_params = {
       'name' => container_name,
       'Image' => service.image,
       'Env' => service.container_env,
       'ExposedPorts' => { "#{service.service.container_port}/tcp" => {} },
       'Volumes' => {service.service.data_directory => {}},
       'HostConfig' => {
-        'Binds' => ["/#{ENV['DATA_DIRECTORY']}/containers/#{container_name}:#{service.service.data_directory}"],
+        'Binds' => ["#{ENV['DATA_DIRECTORY']}/containers/#{container_name}:#{service.service.data_directory}"],
         'PortBindings' => {
           "#{service.service.container_port}/tcp" => [
             {
@@ -37,9 +36,12 @@ class StartServiceWorker
           ]
         }
       }
-    )
+    }
+
+    container = Docker::Container.create(container_params)
 
     Rails.logger.info("Starting Container #{container.id} for Service ##{service.id}")
+    Rails.logger.info(container_params)
 
     if container.start # @todo wait for the container to start
       service.update!(container_id: container.id)
