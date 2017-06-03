@@ -7,6 +7,10 @@ docker pull containerdb/redis
 
 # Setup for the first time
 if ! containerdb config:get DATABASE_URL 2>/dev/null; then
+
+  # Debug @todo remove
+  printenv
+
   echo ''
   echo 'Lets configure Container DB'
   echo ''
