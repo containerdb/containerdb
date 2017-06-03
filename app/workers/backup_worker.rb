@@ -20,11 +20,15 @@ class BackupWorker
       BACKUP_PROVIDER: backup_storage_provider.provider
     })
 
-    environment_variables = backup.service.backup_environment_variables.merge(backup_storage_provider.environment_variables)
+    environment_variables = environment_variables.merge(backup_storage_provider.environment_variables).stringify_keys
+    docker_env_vars = environment_variables.map {|key, value| "#{key}=#{value}" }
+
+    Rails.logger.info(docker_env_vars)
+    Rails.logger.info("sh #{backup.service.backup_script_path}")
 
     image = Docker::Image.get('containerdb/backup-restore')
     container = image.run("sh #{backup.service.backup_script_path}", {
-      'Env' => environment_variables.map {|key, value| "#{key}=#{value}" }
+      'Env' => docker_env_vars
     })
 
     response = container.wait(3600)
