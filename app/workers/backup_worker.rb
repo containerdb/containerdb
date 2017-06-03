@@ -16,11 +16,11 @@ class BackupWorker
     backup.running!
     file_name = backup.service.backup_file_name
     environment_variables = backup.service.backup_environment_variables.merge({
-      AWS_ACCESS_TOKEN: backup_storage_provider.environment_variables['AWS_ACCESS_TOKEN'],
-      AWS_SECRET_KEY: backup_storage_provider.environment_variables['AWS_SECRET_KEY'],
-      AWS_BUCKET_NAME: backup_storage_provider.environment_variables['AWS_BUCKET_NAME'],
-      FILE_NAME: file_name
+      FILE_NAME: file_name,
+      BACKUP_PROVIDER: backup_storage_provider.provider
     })
+
+    environment_variables = backup.service.backup_environment_variables.merge(backup_storage_provider.environment_variables)
 
     image = Docker::Image.get('containerdb/backup-restore')
     container = image.run("sh #{backup.service.backup_script_path}", {
