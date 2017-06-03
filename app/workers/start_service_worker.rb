@@ -19,14 +19,16 @@ class StartServiceWorker
 
     Rails.logger.info("Creating Container for Service ##{service.id}")
 
+    container_name = "#{service.image.parameterize}-#{service.id}"
+
     container = Docker::Container.create(
-      'name' => "#{service.image.parameterize}-#{service.id}",
+      'name' => container_name,
       'Image' => service.image,
       'Env' => service.container_env,
-      'ExposedPorts' => {
-        "#{service.service.container_port}/tcp" => {},
-      },
+      'ExposedPorts' => { "#{service.service.container_port}/tcp" => {} },
+      'Volumes' => {service.service.data_directory => {}},
       'HostConfig' => {
+        'Binds' => ["/#{ENV['DATA_DIRECTORY']}/containers/#{container_name}:#{service.service.data_directory}"],
         'PortBindings' => {
           "#{service.service.container_port}/tcp" => [
             {

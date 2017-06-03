@@ -20,6 +20,12 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   done
   echo
 
+  while [[ -z "$DATA_DIRECTORY" ]]
+  do
+    read -p "Data Directory: " -e -i '/var/containerdb' DATA_DIRECTORY
+  done
+  echo
+
   echo 'And now lets setup your first user'
   while [[ -z "$ADMIN_EMAIL" ]]
   do
@@ -54,9 +60,9 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
     echo
     echo 'Thanks... carrying on'
     echo
-    configured_backups=true
+    configured_s3_backups=true
   else
-    configured_backups=false
+    configured_s3_backups=false
   fi
 
   # Create the Postgres Container
@@ -80,6 +86,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
 
   # Setup Container DB configs
   echo 'Setting Environment Variables'
+  sudo containerdb config:set DATA_DIRECTORY=$DATA_DIRECTORY
   sudo containerdb config:set HOST=$HOST_NAME
   sudo containerdb config:set REDIS_URL="redis://:$REDIS_PASS@127.0.0.1:$REDIS_PORT"
   sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@127.0.0.1:$DB_PORT"
@@ -96,8 +103,8 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo
 
   # Create the storage provider
-  if $configured_backups; then
-    echo 'Save the Storage Provider'
+  if $configured_s3_backups; then
+    echo 'Save the S3 Storage Provider'
     sudo containerdb run rails r "StorageProvider.create!(provider: :s3, name: 's3-$AWS_BUCKET_NAME', environment_variables: { 'AWS_BUCKET_NAME' => '$AWS_BUCKET_NAME', 'AWS_SECRET_KEY' => '$AWS_SECRET_KEY', 'AWS_ACCESS_TOKEN' => '$AWS_ACCESS_TOKEN'})"
     echo
   fi
@@ -109,7 +116,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo
 
   # Backup Postgres and Redis for the first time
-  if $configured_backups; then
+  if $configured_s3_backups; then
     echo 'Perform initial backups'
     sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
     sudo containerdb run rails r "Service.where(name: 'containerdb_redis', locked: true).first.backup(inline: true)"

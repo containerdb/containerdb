@@ -22,6 +22,10 @@ class Service::PostgresService < Service::BaseService
     5432
   end
 
+  def data_directory
+    '/var/lib/postgresql/data'
+  end
+
   def backup_environment_variables
     {
       DB_USER: service.environment_variables['POSTGRES_USER'],

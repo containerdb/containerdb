@@ -9,6 +9,8 @@ class Service::BaseService
     raise NotImplementedError.new('This method has not been implemented for this Service')
   end
 
+  alias_method :data_directory,                   :not_implemented!
+
   # Environment Variables
   alias_method :default_environment_variables,    :not_implemented!
   alias_method :required_environment_variables,   :not_implemented!
