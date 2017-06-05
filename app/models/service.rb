@@ -1,9 +1,9 @@
 class Service < ApplicationRecord
 
   SERVICES = {
-    redis: 'containerdb/redis',
-    postgres: 'postgres',
-    mysql: 'mysql'
+    redis: 'containerdb/redis:latest',
+    postgres: 'postgres:9.6.3',
+    mysql: 'mysql:5.7.18'
   }
 
   validates :name, presence: true
