@@ -29,4 +29,4 @@
           = link_to 'Destroy', service_backup_path(@service, backup), method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }
 
 - if @service.backup_storage_provider.present?
-  = link_to '+ Backup', service_backups_path(@service), method: :create, class: 'btn btn-primary btn-xs'
+  = link_to '+ Trigger Backup', service_backups_path(@service), method: :create, class: 'btn btn-primary'
