@@ -28,6 +28,9 @@ class StartServiceWorker
       'Volumes' => {service.service.data_directory => {}},
       'HostConfig' => {
         'Binds' => ["#{ENV['DATA_DIRECTORY']}/containers/#{container_name}:#{service.service.data_directory}"],
+        'RestartPolicy' => {
+          'Name' => 'unless-stopped'
+        },
         'PortBindings' => {
           "#{service.service.container_port}/tcp" => [
             {
