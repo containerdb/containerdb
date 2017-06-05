@@ -1,9 +1,9 @@
 class Service < ApplicationRecord
 
   SERVICES = {
-    redis: 'containerdb/redis:latest',
-    postgres: 'postgres:9.6.3',
-    mysql: 'mysql:5.7.18'
+    redis: ['containerdb/redis:latest'],
+    postgres: ['postgres:9.6.3'],
+    mysql: ['mysql:5.7.18' ]
   }
 
   validates :name, presence: true
@@ -14,11 +14,10 @@ class Service < ApplicationRecord
   validates :backup_storage_provider, presence: true, allow_nil: true
 
   validates :service_type, presence: true, inclusion: { in: Service::SERVICES.keys.map(&:to_s) }
-  validates :image, presence: true, inclusion: { in: Service::SERVICES.values }, if: :hosted?
   validate :validate_environment_variables
+  validate :validate_image, if: :hosted?
 
   after_initialize :assign_port, if: :hosted?
-  after_initialize :assign_image, if: :hosted?
   after_initialize :assign_environment_variables
 
   before_destroy :destroy_container, if: :hosted?
@@ -106,15 +105,15 @@ class Service < ApplicationRecord
     @_service ||= "Service::#{service_type.capitalize}Service".constantize.new(self)
   end
 
+  def available_images
+    Service::SERVICES[service_type.to_sym]
+  end
+
   protected
 
   # @todo handle collisions
   def assign_port
     self.port ||= (rand(65000 - 1024) + 1024)
-  end
-
-  def assign_image
-    self.image ||= Service::SERVICES[self.service_type.to_sym]
   end
 
   def assign_environment_variables
@@ -124,6 +123,12 @@ class Service < ApplicationRecord
   def validate_environment_variables
     required_environment_variables.each do |variable|
       errors.add(:environment_variable, "\"#{variable}\" is required") unless environment_variables[variable].present?
+    end
+  end
+
+  def validate_image
+    if image.nil? || !available_images.include?(image)
+      errors.add(:image, "is invalid. Must be #{available_images.join('or ')} ")
     end
   end
 end

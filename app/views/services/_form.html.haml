@@ -8,7 +8,7 @@
   - if @service.new_record?
     = f.input :hosted, as: :hidden
     = f.input :service_type, as: :hidden
-    = f.input :image, as: :hidden
+    = f.input :image, collection: @service.available_images, include_blank: false
     = f.input :port
 
     %h1.lead Environment Variables

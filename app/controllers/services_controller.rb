@@ -46,7 +46,7 @@ class ServicesController < ApplicationController
 
   def create_params
     params.require(:service).permit(
-      :service_type, :name, :hosted,
+      :service_type, :name, :hosted, :image,
       :port, :backup_storage_provider_id,
       environment_variables: service_env_keys,
     )
