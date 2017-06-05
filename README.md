@@ -24,8 +24,7 @@ wget -qO - https://deb.packager.io/key | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://deb.packager.io/gh/containerdb/containerdb $(lsb_release -cs) master"
 
 # Install Container DB
-sudo apt-get update
-sudo apt-get install containerdb -y
+sudo apt-get update && apt-get install containerdb -y
 ```
 
 ### Databases
