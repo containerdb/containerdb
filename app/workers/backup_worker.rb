@@ -14,6 +14,12 @@ class BackupWorker
     end
 
     backup.running!
+
+    # Pull the backup image
+    Rails.logger.info("Pulling containerdb/backup-restore")
+    image = Docker::Image.create('fromImage' => 'containerdb/backup-restore')
+    Rails.logger.info(image)
+
     file_name = backup.service.backup_file_name
     environment_variables = backup.service.backup_environment_variables.merge({
       FILE_NAME: file_name,
@@ -28,9 +34,7 @@ class BackupWorker
     end
 
     docker_env_vars = environment_variables.map {|key, value| "#{key}=#{value}" }
-
     Rails.logger.info(docker_env_vars)
-    Rails.logger.info("sh #{backup.service.backup_script_path}")
 
     backup_container_params = { 'Env' => docker_env_vars, 'Tty' => true }
     backup_container_params['HostConfig'] = {
@@ -39,9 +43,8 @@ class BackupWorker
 
     Rails.logger.info(backup_container_params)
 
-    image = Docker::Image.get('containerdb/backup-restore')
+    Rails.logger.info("sh #{backup.service.backup_script_path}")
     container = image.run("sh #{backup.service.backup_script_path}", backup_container_params)
-
     response = container.wait(3600)
     Rails.logger.info(container.logs(stderr: true))
     Rails.logger.info(container.logs(stdout: true))
