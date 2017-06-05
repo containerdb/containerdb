@@ -22,6 +22,10 @@ class Service::MysqlService < Service::BaseService
     3306
   end
 
+  def data_directory
+    '/var/lib/mysql'
+  end
+
   def backup_environment_variables
     {
       DB_USER: service.environment_variables['MYSQL_ROOT_USERNAME'],
