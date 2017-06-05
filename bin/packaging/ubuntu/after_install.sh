@@ -7,10 +7,6 @@ docker pull containerdb/redis
 
 # Setup for the first time
 if ! containerdb config:get DATABASE_URL 2>/dev/null; then
-
-  # Debug @todo remove
-  printenv
-
   echo ''
   echo 'Lets configure Container DB'
   echo ''
@@ -146,6 +142,9 @@ EOF
 
   sudo service nginx restart
   echo
+
+  echo 'Setup permissions'
+  sudo usermod -a -G docker containerdb
 else
   sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
   sudo containerdb run rails db:migrate
