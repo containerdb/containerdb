@@ -24,10 +24,11 @@
             %ul.nav.navbar-nav.navbar-right
               %ul.nav.navbar-nav.navbar-right
                 %li
-                  %a
-                    Docker: #{docker_version}
-                %li
                   = link_to 'Logout', destroy_user_session_path, method: :delete
 
     .container
       = yield
+
+  %footer.footer
+    .container
+      %p.text-muted Docker: #{docker_version}
