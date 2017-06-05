@@ -7,7 +7,7 @@ class ServicesController < ApplicationController
   def destroy
     @service = Service.find(params[:id])
     @service.destroy unless @service.locked?
-    redirect_to :back
+    redirect_to root_path
   end
 
   def new
