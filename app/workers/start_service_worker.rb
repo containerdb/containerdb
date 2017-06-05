@@ -8,21 +8,18 @@ class StartServiceWorker
     return if service.container_id
     fail 'Cannot be performed on an external service' unless service.hosted?
 
-    # @note disabled as it's just hanging
-    #Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
-    #image = Docker::Image.create(
-    #  'fromImage' => service.image,
-    #)
+    Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
+    image = Docker::Image.create('fromImage' => service.image)
 
-    #Rails.logger.info("Pulled Image #{service.image} for Service ##{service.id}")
-    #Rails.logger.debug(image)
+    Rails.logger.info("Pulled Image #{image.id} for Service ##{service.id}")
+    Rails.logger.debug(image)
 
     Rails.logger.info("Creating Container for Service ##{service.id}")
 
     container_name = "#{service.image.parameterize}-#{service.id}"
     container_params = {
       'name' => container_name,
-      'Image' => service.image,
+      'Image' => image.id,
       'Env' => service.container_env,
       'ExposedPorts' => { "#{service.service.container_port}/tcp" => {} },
       'Volumes' => {service.service.data_directory => {}},
