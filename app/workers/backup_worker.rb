@@ -32,7 +32,7 @@ class BackupWorker
     Rails.logger.info(docker_env_vars)
     Rails.logger.info("sh #{backup.service.backup_script_path}")
 
-    backup_container_params = { 'Env' => docker_env_vars }
+    backup_container_params = { 'Env' => docker_env_vars, 'Tty' => true }
     backup_container_params['HostConfig'] = {
       'Binds' => ["#{environment_variables['DIRECTORY']}:/backups"],
     } if backup_storage_provider.provider.to_sym == :local
