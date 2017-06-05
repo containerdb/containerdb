@@ -27,6 +27,12 @@ sudo add-apt-repository "deb [arch=amd64] https://deb.packager.io/gh/containerdb
 sudo apt-get update && apt-get install containerdb -y
 ```
 
+### Upgrade
+
+```
+apt-get update && apt-get install containerdb
+```
+
 ### Databases
 
 - MySQL
