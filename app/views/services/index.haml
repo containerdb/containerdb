@@ -6,6 +6,7 @@
     %tr
       %th Service
       %th Type
+      %th Image
       %th Container
       %th Port
       %th Backup Provider
@@ -13,13 +14,10 @@
     - @services.each do |service|
       %tr
         %td= link_to service.name, edit_service_path(service)
+        %td= service.service_type
         %td
-          = service.service_type
           %em.text-muted
-            - if service.hosted?
-              (#{service.image})
-            - else
-              (external)
+            = service.hosted? ? service.image : "external"
         %td
           - if service.hosted?
             - if service.container_id
