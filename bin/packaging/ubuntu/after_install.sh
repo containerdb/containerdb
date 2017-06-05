@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 chown containerdb /var/run/docker.sock
-docker pull containerdb/backup-restore
-docker pull postgres
-docker pull mysql
-docker pull containerdb/redis
 
 # Setup for the first time
 if ! containerdb config:get DATABASE_URL 2>/dev/null; then
@@ -67,19 +63,21 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
 
   # Create the Postgres Container
   echo 'Setting up a Postgres container'
+  docker pull postgres:9.6.3
   DB_PORT=8474
   DB_USERNAME='postgres'
   DB_PASSWORD=`date +%s | sha256sum | base64 | head -c 32 ; echo`
-  DB_CONTAINER_ID=`docker create --name containerdb_postgres --restart unless-stopped -v $DATA_DIRECTORY/containers/containerdb_postgres:/var/lib/postgresql/data -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres`
+  DB_CONTAINER_ID=`docker create --name containerdb_postgres --restart unless-stopped -v $DATA_DIRECTORY/containers/containerdb_postgres:/var/lib/postgresql/data -p $DB_PORT:5432 -e POSTGRES_PASSWORD=$DB_PASSWORD -e POSTGRES_USER=$DB_USERNAME postgres:9.6.3`
   docker start containerdb_postgres
   sleep 5 # @todo wait for the postgres container to start
   echo
 
   # Create the Redis Container
   echo 'Setting up a Redis container'
+  docker pull containerdb/redis:latest
   REDIS_PORT=8475
   REDIS_PASS=`date +%s | sha256sum | base64 | head -c 32 ; echo`
-  REDIS_CONTAINER_ID=`docker create --name containerdb_redis --restart unless-stopped -v $DATA_DIRECTORY/containers/containerdb_redis:/data -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS containerdb/redis`
+  REDIS_CONTAINER_ID=`docker create --name containerdb_redis --restart unless-stopped -v $DATA_DIRECTORY/containers/containerdb_redis:/data -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS containerdb/redis:latest`
   docker start containerdb_redis
   sleep 5 # @todo wait for the redis container to start
   echo
