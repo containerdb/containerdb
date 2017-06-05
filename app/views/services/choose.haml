@@ -16,4 +16,4 @@
         = link_to 'Hosted', new_service_path(service: service, hosted: true), class: 'btn btn-xs btn-primary'
         = link_to 'External', new_service_path(service: service, hosted: false), class: 'btn btn-xs btn-primary'
       %td
-        = images.join(', ')
+        = images.join(', ').truncate(60)

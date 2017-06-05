@@ -74,10 +74,10 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
 
   # Create the Redis Container
   echo 'Setting up a Redis container'
-  docker pull containerdb/redis:latest
+  docker pull containerdb/redis:3.2.9-alpine
   REDIS_PORT=8475
   REDIS_PASS=`date +%s | sha256sum | base64 | head -c 32 ; echo`
-  REDIS_CONTAINER_ID=`docker create --name containerdb_redis --restart unless-stopped -v $DATA_DIRECTORY/containers/containerdb_redis:/data -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS containerdb/redis:latest`
+  REDIS_CONTAINER_ID=`docker create --name containerdb_redis --restart unless-stopped -v $DATA_DIRECTORY/containers/containerdb_redis:/data -p $REDIS_PORT:6379 -e REDIS_PASS=$REDIS_PASS containerdb/redis:3.2.9-alpine`
   docker start containerdb_redis
   sleep 5 # @todo wait for the redis container to start
   echo
