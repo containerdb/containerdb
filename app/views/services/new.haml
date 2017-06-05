@@ -1,7 +1,5 @@
-= content_for :title, "Create a #{@service.service_type} Service"
+= content_for :title, "Create a #{@service.service_type.to_s.titleize} Service"
 
-%ol.breadcrumb
-  %li= link_to 'Services', services_path
-  %li= content_for :title
+%h1.lead Create a #{@service.service_type.to_s.titleize} Service
 
 = render 'form'

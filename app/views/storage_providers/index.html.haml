@@ -1,5 +1,7 @@
-%ol.breadcrumb
-  %li Storage Providers
+%h1.lead
+  Storage Providers
+  .pull-right
+    = link_to '+', new_storage_provider_path, class: 'btn btn-success'
 
 - if @providers.any?
   %table.table.table-striped
@@ -12,5 +14,3 @@
         %td= provider.provider
 - else
   %p.alert.alert-info You have not launched any services yet
-
-= link_to '+ Create', new_storage_provider_path, class: 'btn btn-primary btn-xs'

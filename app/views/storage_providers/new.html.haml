@@ -1,11 +1,8 @@
-= content_for :title, "Create an #{@provider.provider.titleize} Storage Provider"
+= content_for :title, "Create a #{@provider.provider.titleize} Storage Provider"
 
-%ol.breadcrumb
-  %li= link_to 'Storage Providers', storage_providers_path
-  %li= content_for :title
+%h1.lead Create a #{@provider.provider.titleize} Storage Provider
 
-
-= simple_form_for @provider, html: { class: 'well' } do |f|
+= simple_form_for @provider do |f|
 
   = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
 

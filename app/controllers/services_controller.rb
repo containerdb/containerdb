@@ -18,7 +18,7 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(create_params)
     if @service.save
-      StartServiceWorker.perform_async(@service.id) if @service.hosted?
+      StartServiceWorker.new.perform(@service.id) if @service.hosted?
       redirect_to services_path
     else
       render :new
@@ -28,7 +28,7 @@ class ServicesController < ApplicationController
   def update
     @service = Service.find(params[:id])
     if @service.update(update_params)
-      redirect_to services_path
+      redirect_to edit_service_path(@service)
     else
       render :edit
     end

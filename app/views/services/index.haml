@@ -1,5 +1,7 @@
-%ol.breadcrumb
-  %li Services
+%h1.lead
+  Services
+  .pull-right
+    = link_to '+', choose_services_path, class: 'btn btn-success'
 
 - if @services.any?
   %table.table.table-striped
@@ -10,7 +12,7 @@
       %th Container
       %th Port
       %th Backup Provider
-      %th Actions
+      %th Connect
     - @services.each do |service|
       %tr
         %td= link_to service.name, edit_service_path(service)
@@ -34,11 +36,7 @@
           - else
             = "-"
         %td
-          %button.btn.btn-success.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
-          - if service.can_backup?
-            = link_to 'Backups', service_backups_path(service), class: 'btn btn-info btn-xs'
-          - unless service.locked?
-            = link_to (service.hosted? ? 'Destroy' : 'Remove'), service_path(service), class: 'btn btn-danger btn-xs', method: :delete, data: { confirm: 'Are you sure?' }
+          %button.btn.btn-primary.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
       .modal.fade{"aria-labelledby" => "myModalLabel", :id => "connection-#{service.id}", :role => "dialog", :tabindex => "-1"}
         .modal-dialog{:role => "document"}
           .modal-content
@@ -54,5 +52,3 @@
 
 - else
   %p.alert.alert-info You have not launched any services yet
-
-= link_to '+ Create Service', choose_services_path, class: 'btn btn-primary'

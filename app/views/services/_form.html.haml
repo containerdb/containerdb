@@ -1,4 +1,4 @@
-= simple_form_for @service, html: { class: 'well' } do |f|
+= simple_form_for @service, html: { class: '' } do |f|
 
   = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
 
@@ -20,7 +20,5 @@
 
   = f.button :submit
   - if @service.persisted?
-    - if @service.backup_storage_provider.present?
-      = link_to 'Trigger Backup', service_backups_path(@service), method: :create, class: 'btn btn-success'
-
-    = link_to (@service.hosted? ? 'Destroy' : 'Remove'), service_path(@service), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }
+    - unless @service.locked?
+      = link_to (@service.hosted? ? 'Destroy' : 'Remove'), service_path(@service), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }

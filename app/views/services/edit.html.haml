@@ -1,7 +1,33 @@
 = content_for :title, "Edit #{@service.name}"
 
-%ol.breadcrumb
-  %li= link_to 'Services', services_path
-  %li.active= content_for(:title)
+.row
+  .col-md-3
+    %h1.lead= @service.name
+    = render 'form'
+  .col-md-9
 
-= render 'form'
+    %h1.lead
+      Backups
+      - if @service.can_backup?
+        .pull-right
+          = link_to '+', service_backups_path(@service), method: :create, class: 'btn btn-success'
+
+    - if @service.backups.any?
+      %table.table.table-striped
+        %tr
+          %th Time
+          %th File Name
+          %th Status
+          %th Actions
+        - @service.backups.order(created_at: :desc).each do |backup|
+          %tr
+            %td
+              = backup.created_at
+            %td
+              = backup.file_name || '-'
+            %td
+              = backup.status
+            %td
+              = link_to 'Destroy', service_backup_path(@service, backup), method: :delete, class: 'btn btn-xs btn-danger', data: { confirm: 'Are you sure?' }
+    - else
+      %p.alert.alert-info You have no backups yet!
