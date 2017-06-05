@@ -119,12 +119,10 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo
 
   # Backup Postgres and Redis for the first time
-  if $configured_s3_backups; then
-    echo 'Perform initial backups'
-    sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
-    sudo containerdb run rails r "Service.where(name: 'containerdb_redis', locked: true).first.backup(inline: true)"
-    echo
-  fi
+  echo 'Perform initial backups'
+  sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
+  sudo containerdb run rails r "Service.where(name: 'containerdb_redis', locked: true).first.backup(inline: true)"
+  echo
 
   echo 'Setup Nginx'
   cat > /etc/nginx/sites-available/default <<EOF
