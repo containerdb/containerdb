@@ -2,7 +2,7 @@
 
 Create databases instantly, with automatic backups. Perfect for prototyping and running small apps.
 
-![](http://d.pr/i/jyZn+)
+![](http://d.pr/i/nUVrdv+)
 
 ### Dependencies
 
@@ -48,6 +48,7 @@ apt-get update && apt-get install containerdb
 
 ### Roadmap
 
+- More databases (elasticsearch, rethinkdb, etc etc)
 - Automated Backups
 - Restore backups
 - Download backups
