@@ -1,6 +1,6 @@
 # Container DB
 
-Create databases instantly, with automatic backups. Perfect for prototyping and running small apps.
+Databases as a Service. Create databases instantly, with automatic backups. Perfect for prototyping and running small apps.
 
 ![](http://d.pr/i/nUVrdv+)
 
@@ -41,10 +41,11 @@ apt-get update && apt-get install containerdb
 
 ### Features
 
-- Instantly launch a database
-- Connect to the database from anywhere
+- Instantly create a database
+- Connect to that database from anywhere
 - Password protected databases
-- Manually backup to Amazon S3
+- Backup to Amazon S3 or local folders
+- Backup external databases
 
 ### Roadmap
 
