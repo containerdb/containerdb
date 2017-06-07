@@ -1,0 +1,12 @@
+.modal.fade{"aria-labelledby" => "myModalLabel", :id => "connection-#{service.id}", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title
+          Connection Details for #{service.name}
+      .modal-body
+        = simple_form_for service do |f|
+          = f.input :connection_command, readonly: true
+          = f.input :connection_string, readonly: true

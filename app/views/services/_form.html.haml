@@ -1,3 +1,5 @@
+= render 'connect', service: @service if @service.persisted?
+
 = simple_form_for @service, html: { class: '' } do |f|
 
   = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
@@ -18,7 +20,8 @@
         = field.input key, label: key.to_s
 
 
-  = f.button :submit
+  = f.button :submit, 'Save'
   - if @service.persisted?
     - unless @service.locked?
       = link_to (@service.hosted? ? 'Destroy' : 'Remove'), service_path(@service), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }
+    %button.btn.btn-primary{"data-target" => "#connection-#{@service.id}", "data-toggle" => "modal", :type => "button"} Connect

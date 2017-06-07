@@ -14,6 +14,7 @@
       %th Backup Provider
       %th Connect
     - @services.each do |service|
+      = render 'connect', service: service
       %tr
         %td= link_to service.name, edit_service_path(service)
         %td= service.service_type
@@ -37,18 +38,7 @@
             = "-"
         %td
           %button.btn.btn-primary.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
-      .modal.fade{"aria-labelledby" => "myModalLabel", :id => "connection-#{service.id}", :role => "dialog", :tabindex => "-1"}
-        .modal-dialog{:role => "document"}
-          .modal-content
-            .modal-header
-              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                %span{"aria-hidden" => "true"} ×
-              %h4#myModalLabel.modal-title
-                Connection Details for #{service.name}
-            .modal-body
-              = simple_form_for service do |f|
-                = f.input :connection_command, readonly: true
-                = f.input :connection_string, readonly: true
+
 
 - else
   %p.alert.alert-info You have not launched any services yet
