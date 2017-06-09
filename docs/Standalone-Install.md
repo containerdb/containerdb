@@ -1,3 +1,5 @@
+# Standalone Install
+
 We have a standalone installer that will take an empty Ubuntu server and install everything you need to run Container DB.
 
 ```
@@ -12,3 +14,5 @@ sudo add-apt-repository "deb [arch=amd64] https://deb.packager.io/gh/containerdb
 # Install Container DB
 sudo apt-get update && apt-get install containerdb -y
 ```
+
+Once this is finished, visit the URL printed at the end, and you are ready to go!
