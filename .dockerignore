@@ -1,0 +1,6 @@
+.git
+.ruby-version
+.env
+tmp
+spec
+log
