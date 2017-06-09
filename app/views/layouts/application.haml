@@ -15,10 +15,9 @@
             Container DB
         #navbar.navbar-collapse.collapse
           %ul.nav.navbar-nav
-            %li
-              = link_to 'Services', services_path
-            %li
-              = link_to 'Storage Providers', storage_providers_path
+            %li= link_to 'Services', services_path
+            %li= link_to 'Users', users_path
+            %li= link_to 'Storage Providers', storage_providers_path
 
           - if user_signed_in?
             %ul.nav.navbar-nav.navbar-right
@@ -27,6 +26,9 @@
                   = link_to 'Logout', destroy_user_session_path, method: :delete
 
     .container
+      - if flash[:info].present?
+        %p.alert.alert-info= flash[:info]
+
       = yield
 
   %footer.footer

@@ -1,0 +1,17 @@
+%h1.lead
+  Users
+  .pull-right
+    = link_to '+', new_user_path, class: 'btn btn-success'
+
+%table.table.table-striped
+  %tr
+    %th Email
+    %th Created
+    %th Last Sign In
+    %th Remove
+  - @users.each do |user|
+    %tr
+      %td= user.email
+      %td= user.created_at
+      %td= user.last_sign_in_at || '-'
+      %td= link_to 'Remove', user_path(user), method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }

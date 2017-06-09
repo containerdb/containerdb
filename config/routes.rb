@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   devise_for :users
   root to: redirect('/services')
 
+  resources :users, only: [:index, :new, :create, :destroy]
+
   resources :storage_providers do
     collection do
       get :choose
