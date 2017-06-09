@@ -18,17 +18,6 @@ adding a `.env.production` file which will automatically be used.
 | REDIS_URL                   | Redis connection string                        | Yes           |
 
 
-## Backups
-
-The following variables will need to be set if you want to use the backups feature.
-
-| Key                         | Description                                    | Required?     |
-|-----------------------------|------------------------------------------------|---------------|
-| AWS_REGION                  |                                                | No            |
-| AWS_ACCESS_KEY_ID           |                                                | No            |
-| AWS_SECRET_ACCESS_KEY       |                                                | No            |
-
-
 ## Web Server
 
 The help fine-tune the server to your specific needs, for performance or flexibility.
