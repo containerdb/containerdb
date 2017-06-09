@@ -1,0 +1,4 @@
+= simple_form_for @user do |u|
+  = u.input :email
+  = u.input :password, input_html: { value: SecureRandom.hex.first(12) }, as: :string
+  = u.button :submit
