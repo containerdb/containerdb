@@ -46,6 +46,7 @@ apt-get update && apt-get install containerdb
 - Password protected databases
 - Backup to Amazon S3 or local folders
 - Backup external databases
+- User management
 
 ### Roadmap
 
@@ -53,5 +54,4 @@ apt-get update && apt-get install containerdb
 - Automated Backups
 - Restore backups
 - Download backups
-- User management
 - Database clusters (maybe - long term)
