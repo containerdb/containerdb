@@ -4,3 +4,5 @@
 tmp
 spec
 log
+docker-compose.yml
+*.md

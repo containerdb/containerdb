@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:9.6.3
+    ports:
+      - 5432
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=containerdb_production
+
+  redis:
+    image: redis:3.2.9-alpine
+    ports:
+      - 6739
+
+  containerdb-migrate:
+    build: .
+    links:
+      - postgres
+      - redis
+    env_file: .env.production
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
+      - REDIS_URL=redis://redis:6379/0
+    command: bundle exec rake db:migrate
+    restart: "no"
+
+  containerdb-web:
+    build: .
+    links:
+      - postgres
+      - redis
+    ports:
+      - 5000:5000
+    env_file: .env.production
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
+      - REDIS_URL=redis://redis:6379/0
