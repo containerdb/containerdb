@@ -1,8 +1,10 @@
 .git
 .ruby-version
 .env
+.env.*
 tmp
 spec
 log
 docker-compose.yml
 *.md
+docs/*

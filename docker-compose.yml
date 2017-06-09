@@ -15,7 +15,7 @@ services:
     ports:
       - 6739
 
-  containerdb-migrate:
+  migrate:
     build: .
     links:
       - postgres
@@ -27,7 +27,20 @@ services:
     command: bundle exec rake db:migrate
     restart: "no"
 
-  containerdb-web:
+  worker:
+    build: .
+    links:
+      - postgres
+      - redis
+    env_file: .env.production
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
+      - REDIS_URL=redis://redis:6379/0
+    command: bundle exec sidekiq -c 5 -q default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  web:
     build: .
     links:
       - postgres
@@ -38,3 +51,6 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
       - REDIS_URL=redis://redis:6379/0
+    command: bundle exec puma -C config/puma.rb
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
