@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:9.6.3
+    ports:
+      - 5432
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=containerdb_production
+
+  redis:
+    image: redis:3.2.9-alpine
+    ports:
+      - 6739
+
+  migrate:
+    build: .
+    links:
+      - postgres
+      - redis
+    env_file: .env.production
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
+      - REDIS_URL=redis://redis:6379/0
+    command: bundle exec rake db:migrate
+    restart: "no"
+
+  worker:
+    build: .
+    links:
+      - postgres
+      - redis
+    env_file: .env.production
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
+      - REDIS_URL=redis://redis:6379/0
+    command: bundle exec sidekiq -c 5 -q default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  web:
+    build: .
+    links:
+      - postgres
+      - redis
+    ports:
+      - 5000:5000
+    env_file: .env.production
+    environment:
+      - DATABASE_URL=postgres://postgres@postgres:5432/containerdb_production
+      - REDIS_URL=redis://redis:6379/0
+    command: bundle exec puma -C config/puma.rb
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
