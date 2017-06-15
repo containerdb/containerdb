@@ -1,7 +1,6 @@
 class ServicesController < ApplicationController
-
   def index
-    @services = Service.eager_load(:backup_storage_provider).order(created_at: :desc)
+    @services = Service.eager_load(:backup_storage_provider, :machine).order(created_at: :desc)
   end
 
   def destroy

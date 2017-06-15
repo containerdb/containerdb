@@ -26,6 +26,7 @@ class Service < ApplicationRecord
   }
 
   validates :name, presence: true
+  validates :machine, presence: true
 
   validates :port, presence: true
   validates :port, uniqueness: { scope: :hosted }, if: :hosted?
@@ -44,6 +45,7 @@ class Service < ApplicationRecord
 
   has_many :backups
   belongs_to :backup_storage_provider, class_name: 'StorageProvider', optional: true
+  belongs_to :machine
 
   def backup(inline: false)
     if inline

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: redirect('/services')
 
   resources :users, only: [:index, :new, :create, :destroy]
+  resources :machines
 
   resources :storage_providers do
     collection do

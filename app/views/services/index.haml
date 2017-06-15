@@ -7,6 +7,7 @@
   %table.table.table-striped
     %tr
       %th Service
+      %th Machine
       %th Type
       %th Image
       %th Container
@@ -17,6 +18,7 @@
       = render 'connect', service: service
       %tr
         %td= link_to service.name, edit_service_path(service)
+        %td= service.machine.try(:name) || '-'
         %td= service.service_type
         %td
           %em.text-muted
