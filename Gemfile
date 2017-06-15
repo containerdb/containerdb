@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Default to 2.3.4 but allow override for development
 ruby File.exist?('.ruby-version') ? File.read('.ruby-version') : '2.3.4'
 
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.1.1'
 
 gem 'bootstrap-sass'
 gem 'devise'                                   # Authentication
