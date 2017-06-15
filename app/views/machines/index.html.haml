@@ -14,7 +14,7 @@
       %th Docker URL
     - @machines.each do |machine|
       %tr
-        %td= machine.name
+        %td= link_to machine.name, edit_machine_path(machine)
         %td= machine.services.size
         %td= machine.docker_url
 - else

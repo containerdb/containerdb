@@ -3,44 +3,4 @@
   .pull-right
     = link_to '+', choose_services_path, class: 'btn btn-success'
 
-- if @services.any?
-  %table.table.table-striped
-    %tr
-      %th Service
-      %th Machine
-      %th Type
-      %th Image
-      %th Container
-      %th Port
-      %th Backup Provider
-      %th Connect
-    - @services.each do |service|
-      = render 'connect', service: service
-      %tr
-        %td= link_to service.name, edit_service_path(service)
-        %td= service.machine.try(:name) || '-'
-        %td= service.service_type
-        %td
-          %em.text-muted
-            = service.hosted? ? service.image : "external"
-        %td
-          - if service.hosted?
-            - if service.container_id
-              %samp= service.container_id.to_s.first(12)
-            - else
-              %em.text-muted starting..
-          - else
-            %em.text-muted n/a
-        %td= service.port
-        %td
-          - if service.backup_storage_provider_id.present?
-            %em.text-muted [#{service.backup_storage_provider.provider}]
-            #{service.backup_storage_provider.name}
-          - else
-            = "-"
-        %td
-          %button.btn.btn-primary.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
-
-
-- else
-  %p.alert.alert-info You have not launched any services yet
+= render 'table', services: @services
