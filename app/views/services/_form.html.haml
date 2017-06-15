@@ -8,6 +8,8 @@
   = f.input :backup_storage_provider_id, collection: StorageProvider.all, label: 'Backup Storage Provider', label_method: :label_method
 
   - if @service.new_record?
+    - if @service.hosted?
+      = f.input :machine_id, collection: Machine.all, include_blank: false
     = f.input :hosted, as: :hidden
     = f.input :service_type, as: :hidden
     = f.input :image, collection: @service.available_images, include_blank: false
@@ -18,7 +20,6 @@
     = f.simple_fields_for(environment_variables) do |field|
       - environment_variables.each do |key, value|
         = field.input key, label: key.to_s
-
 
   = f.button :submit, 'Save'
   - if @service.persisted?

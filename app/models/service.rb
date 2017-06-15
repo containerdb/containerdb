@@ -1,5 +1,6 @@
 class Service < ApplicationRecord
 
+  DEFAULT_SERVICE_TYPE = 'redis'
   SERVICES = {
     redis: [
       'containerdb/redis:3.2.9-alpine',
@@ -25,9 +26,10 @@ class Service < ApplicationRecord
   }
 
   validates :name, presence: true
+  validates :machine, presence: true
 
   validates :port, presence: true
-  validates :port, uniqueness: { scope: :hosted }, if: :hosted?
+  validates :port, uniqueness: { scope: [:machine, :hosted] }, if: :hosted?
 
   validates :backup_storage_provider, presence: true, allow_nil: true
 
@@ -35,6 +37,7 @@ class Service < ApplicationRecord
   validate :validate_environment_variables
   validate :validate_image, if: :hosted?
 
+  after_initialize :assign_default_service_type
   after_initialize :assign_port, if: :hosted?
   after_initialize :assign_environment_variables
 
@@ -42,6 +45,7 @@ class Service < ApplicationRecord
 
   has_many :backups
   belongs_to :backup_storage_provider, class_name: 'StorageProvider', optional: true
+  belongs_to :machine
 
   def backup(inline: false)
     if inline
@@ -52,7 +56,7 @@ class Service < ApplicationRecord
   end
 
   def container
-    Docker::Container.get(container_id) if container_id
+    Docker::Container.get(container_id, machine.docker) if container_id
   end
 
   def destroy_container
@@ -128,6 +132,10 @@ class Service < ApplicationRecord
   end
 
   protected
+
+  def assign_default_service_type
+    self.service_type ||= DEFAULT_SERVICE_TYPE
+  end
 
   # @todo handle collisions
   def assign_port

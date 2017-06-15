@@ -1,0 +1,21 @@
+= content_for :title, "Machines"
+
+%h1.lead
+  Machines
+  .pull-right
+    = link_to '+', new_machine_path, class: 'btn btn-success'
+
+
+- if @machines.any?
+  %table.table.table-striped
+    %tr
+      %th Name
+      %th Services
+      %th Docker URL
+    - @machines.each do |machine|
+      %tr
+        %td= link_to machine.name, edit_machine_path(machine)
+        %td= machine.services.size
+        %td= machine.docker_url
+- else
+  %p.alert.alert-info You have not launched any services yet

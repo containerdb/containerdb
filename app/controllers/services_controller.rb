@@ -1,7 +1,6 @@
 class ServicesController < ApplicationController
-
   def index
-    @services = Service.eager_load(:backup_storage_provider).order(created_at: :desc)
+    @services = Service.eager_load(:backup_storage_provider, :machine).order(created_at: :desc)
   end
 
   def destroy
@@ -47,7 +46,7 @@ class ServicesController < ApplicationController
   def create_params
     params.require(:service).permit(
       :service_type, :name, :hosted, :image,
-      :port, :backup_storage_provider_id,
+      :port, :backup_storage_provider_id, :machine_id,
       environment_variables: service_env_keys,
     )
   end
