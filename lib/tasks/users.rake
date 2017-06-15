@@ -1,7 +1,8 @@
 namespace :users do
+  desc 'Create a new user'
   task :create, [:email, :password] => :environment do |t, args|
     args.with_defaults(password: SecureRandom.hex.first(12))
-    
+
     abort 'Email is required' unless args[:email].present?
     abort 'Password is required' unless args[:password].present?
 
