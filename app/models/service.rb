@@ -1,5 +1,6 @@
 class Service < ApplicationRecord
 
+  DEFAULT_SERVICE_TYPE = 'redis'
   SERVICES = {
     redis: [
       'containerdb/redis:3.2.9-alpine',
@@ -35,6 +36,7 @@ class Service < ApplicationRecord
   validate :validate_environment_variables
   validate :validate_image, if: :hosted?
 
+  after_initialize :assign_default_service_type
   after_initialize :assign_port, if: :hosted?
   after_initialize :assign_environment_variables
 
@@ -128,6 +130,10 @@ class Service < ApplicationRecord
   end
 
   protected
+
+  def assign_default_service_type
+    self.service_type ||= DEFAULT_SERVICE_TYPE
+  end
 
   # @todo handle collisions
   def assign_port
