@@ -9,7 +9,7 @@ class StartServiceWorker
     fail 'Cannot be performed on an external service' unless service.hosted?
 
     Rails.logger.info("Pulling Image #{service.image} for Service ##{service.id}")
-    image = Docker::Image.create({ 'fromImage' => service.image }, service.machine.docker)
+    image = Docker::Image.create({'fromImage' => service.image}, service.machine.docker)
 
     Rails.logger.info("Pulled Image #{image.id} for Service ##{service.id}")
     Rails.logger.debug(image)

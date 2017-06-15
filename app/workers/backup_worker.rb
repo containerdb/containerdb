@@ -17,7 +17,7 @@ class BackupWorker
 
     # Pull the backup image
     Rails.logger.info("Pulling containerdb/backup-restore")
-    image = Docker::Image.create('fromImage' => 'containerdb/backup-restore', backup.service.machine.docker)
+    image = Docker::Image.create({'fromImage' => 'containerdb/backup-restore'}, backup.service.machine.docker)
     Rails.logger.info(image)
 
     file_name = backup.service.backup_file_name
