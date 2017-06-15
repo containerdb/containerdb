@@ -29,7 +29,7 @@ class Service < ApplicationRecord
   validates :machine, presence: true
 
   validates :port, presence: true
-  validates :port, uniqueness: { scope: :hosted }, if: :hosted?
+  validates :port, uniqueness: { scope: [:machine, :hosted] }, if: :hosted?
 
   validates :backup_storage_provider, presence: true, allow_nil: true
 
