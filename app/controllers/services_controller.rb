@@ -18,7 +18,7 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(create_params)
     if @service.save
-      StartServiceWorker.new.perform(@service.id) if @service.hosted?
+      StartServiceWorker.perform_async(@service.id) if @service.hosted?
       redirect_to services_path
     else
       render :new
