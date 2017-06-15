@@ -9,7 +9,7 @@
 
   - if @service.new_record?
     - if @service.hosted?
-      = f.input :machine, collection: Machine.all, include_blank: false
+      = f.input :machine_id, collection: Machine.all, include_blank: false
     = f.input :hosted, as: :hidden
     = f.input :service_type, as: :hidden
     = f.input :image, collection: @service.available_images, include_blank: false

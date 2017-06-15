@@ -56,7 +56,7 @@ class Service < ApplicationRecord
   end
 
   def container
-    Docker::Container.get(container_id) if container_id
+    Docker::Container.get(container_id, machine.docker) if container_id
   end
 
   def destroy_container
