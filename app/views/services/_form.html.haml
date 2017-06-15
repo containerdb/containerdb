@@ -21,7 +21,6 @@
       - environment_variables.each do |key, value|
         = field.input key, label: key.to_s
 
-
   = f.button :submit, 'Save'
   - if @service.persisted?
     - unless @service.locked?
