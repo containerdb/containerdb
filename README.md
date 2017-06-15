@@ -7,10 +7,10 @@ Databases as a Service. Create databases instantly, with automatic backups. Perf
 ### Dependencies
 
  - Ubuntu 16.04 (may work on lower, but not tested yet)
- - Docker (Installed Automatically)
- - Postgres (Installed Automatically)
- - Nginx (Installed Automatically)
- - Redis (Installed Automatically)
+ - Docker
+ - Postgres
+ - Nginx
+ - Redis
 
 ### Install
 
@@ -31,6 +31,7 @@ Databases as a Service. Create databases instantly, with automatic backups. Perf
 - Backup to Amazon S3 or local folders
 - Backup external databases
 - User management
+- Multiple Docker hosts
 
 ### Roadmap
 
