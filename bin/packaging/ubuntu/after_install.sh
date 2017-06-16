@@ -114,8 +114,8 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
 
   # Add the Postgres and Redis containers to the app so it can self manage them
   echo 'Save the Redis and Postgres Servies'
-  sudo containerdb run rails r "Service.create!(machine_id: Machine.first.id, backup_storage_provider_id: StorageProvider.first.try(:id), locked: true, service_type: :postgres, name: 'containerdb_postgres', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
-  sudo containerdb run rails r "Service.create!(machine_id: Machine.first.id, backup_storage_provider_id: StorageProvider.first.try(:id), locked: true, service_type: :redis, name: 'containerdb_redis', port: $REDIS_PORT, container_id: '$REDIS_CONTAINER_ID', environment_variables: { 'REDIS_PASS' => '$REDIS_PASS' })"
+  sudo containerdb run rails r "Service.create!(machine_id: Machine.first.id, backup_storage_provider_id: StorageProvider.first.try(:id), locked: true, image: 'postgres:9.6.3', service_type: :postgres, name: 'containerdb_postgres', port: $DB_PORT, container_id: '$DB_CONTAINER_ID', environment_variables: { 'POSTGRES_PASSWORD' => '$DB_PASSWORD', 'POSTGRES_USER' => '$DB_USERNAME'})"
+  sudo containerdb run rails r "Service.create!(machine_id: Machine.first.id, backup_storage_provider_id: StorageProvider.first.try(:id), locked: true, image: 'containerdb/redis:3.2.9-alpine', service_type: :redis, name: 'containerdb_redis', port: $REDIS_PORT, container_id: '$REDIS_CONTAINER_ID', environment_variables: { 'REDIS_PASS' => '$REDIS_PASS' })"
   echo
 
   # Backup Postgres and Redis for the first time
