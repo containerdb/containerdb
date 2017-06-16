@@ -25,4 +25,6 @@
   - if @service.persisted?
     - unless @service.locked?
       = link_to (@service.hosted? ? 'Destroy' : 'Remove'), service_path(@service), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }
-    %button.btn.btn-primary{"data-target" => "#connection-#{@service.id}", "data-toggle" => "modal", :type => "button"} Connect
+
+    - if (@service.hosted? && @service.container_id.present?) || @service.external?
+      %button.btn.btn-primary{"data-target" => "#connection-#{@service.id}", "data-toggle" => "modal", :type => "button"} Connect
