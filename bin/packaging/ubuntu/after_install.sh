@@ -152,4 +152,4 @@ fi
 echo
 echo '...done'
 echo
-echo "Visit http://$(sudo containerdb config:get HOST)"
+echo "Visit http://$($HOST_NAME)"
