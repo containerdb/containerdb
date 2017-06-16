@@ -11,6 +11,8 @@ class ServicesController < ApplicationController
 
   def new
     return redirect_to choose_services_path unless params[:service].present?
+    ensure_machine! if params[:hosted]
+
     @service = Service.new(service_type: params[:service], hosted: params[:hosted])
   end
 
@@ -38,6 +40,13 @@ class ServicesController < ApplicationController
   end
 
   private
+
+  def ensure_machine!
+    unless Machine.any?
+      flash[:info] = 'Before you can create a hosted Service, you must create a Machine.'
+      redirect_to new_machine_path
+    end
+  end
 
   def update_params
     params.require(:service).permit(:name, :backup_storage_provider_id)
