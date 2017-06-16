@@ -21,10 +21,10 @@ class StartServiceWorker
       'name' => container_name,
       'Image' => image.id,
       'Env' => service.container_env,
-      'ExposedPorts' => { "#{service.service.container_port}/tcp" => {} },
+      'ExposedPorts' => { "#{service.container_port}/tcp" => {} },
       'Volumes' => {service.service.data_directory => {}},
       'HostConfig' => {
-        'Binds' => ["#{ENV['DATA_DIRECTORY']}/containers/#{container_name}:#{service.service.data_directory}"],
+        'Binds' => ["#{service.machine.data_directory}/containers/#{container_name}:#{service.service.data_directory}"],
         'RestartPolicy' => {
           'Name' => 'unless-stopped'
         },

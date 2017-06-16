@@ -11,8 +11,6 @@ adding a `.env.production` file which will automatically be used.
 
 | Key                         | Description                                    | Required?     |
 |-----------------------------|------------------------------------------------|---------------|
-| HOST                        | Host where your instance can be accessed       | Yes           |
-| DATA_DIRECTORY              | Base mount point for service volumes           | Yes           |
 | SECRET_KEY_BASE             | Required by Rails for secrets encryption       | Yes           |
 | DATABASE_URL                | Database connection string                     | Yes           |
 | REDIS_URL                   | Redis connection string                        | Yes           |

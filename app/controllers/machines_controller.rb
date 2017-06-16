@@ -32,10 +32,10 @@ class MachinesController < ApplicationController
   private
 
   def update_params
-    params.require(:machine).permit(:name)
+    params.require(:machine).permit(:name, :hostname)
   end
 
   def create_params
-    params.require(:machine).permit(:name, :docker_url)
+    params.require(:machine).permit(:name, :docker_url, :hostname, :data_directory)
   end
 end

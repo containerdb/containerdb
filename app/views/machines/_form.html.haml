@@ -1,6 +1,8 @@
 = simple_form_for @machine do |f|
   = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
   = f.input :name
+  = f.input :hostname, input_html: { value: @machine.hostname || 'localhost' }
   - if @machine.new_record?
     = f.input :docker_url, input_html: { value: @machine.docker_url || 'unix:///var/run/docker.sock' }
+    = f.input :data_directory, input_html: { value: @machine.data_directory || '/var/lib/containerdb' }
   = f.button :submit

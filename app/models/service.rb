@@ -108,7 +108,7 @@ class Service < ApplicationRecord
   end
 
   def host
-    environment_variables['HOST'] || ENV['HOST']
+    environment_variables['HOST'] || machine.hostname
   end
 
   def can_backup?

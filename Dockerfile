@@ -1,7 +1,6 @@
 FROM ruby:2.4.1
 
 ENV RAILS_ENV production
-ENV DATA_DIRECTORY /var/containerdb
 WORKDIR /app
 RUN echo $RUBY_VERSION > .ruby-version
 

@@ -84,8 +84,6 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
 
   # Setup Container DB configs
   echo 'Setting Environment Variables'
-  sudo containerdb config:set DATA_DIRECTORY=$DATA_DIRECTORY
-  sudo containerdb config:set HOST=$HOST_NAME
   sudo containerdb config:set REDIS_URL="redis://:$REDIS_PASS@127.0.0.1:$REDIS_PORT"
   sudo containerdb config:set DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@127.0.0.1:$DB_PORT"
 
@@ -111,7 +109,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
   echo
 
   echo 'Create the local Machine'
-  sudo containerdb run rails r "Machine.create!(name: 'localhost', docker_url: 'unix:///var/run/docker.sock')"
+  sudo containerdb run rails r "Machine.create!(name: 'localhost', docker_url: 'unix:///var/run/docker.sock', data_directory: '$DATA_DIRECTORY', hostname: '$HOST_NAME')"
   echo
 
   # Add the Postgres and Redis containers to the app so it can self manage them
