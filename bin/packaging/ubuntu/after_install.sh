@@ -143,6 +143,9 @@ EOF
 
   echo 'Setup permissions'
   sudo usermod -a -G docker containerdb
+
+  echo
+  echo "Visit http://$HOST_NAME"
 else
   sudo containerdb run rails r "Service.where(name: 'containerdb_postgres', locked: true).first.backup(inline: true)"
   sudo containerdb run rails db:migrate
@@ -151,5 +154,3 @@ fi
 
 echo
 echo '...done'
-echo
-echo "Visit http://$HOST_NAME"
