@@ -26,7 +26,7 @@ class Service < ApplicationRecord
   }
 
   validates :name, presence: true
-  validates :machine, presence: true
+  validates :machine, presence: true, if: :hosted?
 
   validates :port, presence: true
   validates :port, uniqueness: { scope: [:machine, :hosted] }, if: :hosted?
