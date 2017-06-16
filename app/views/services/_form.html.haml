@@ -1,6 +1,6 @@
 = render 'connect', service: @service if @service.persisted?
 
-= simple_form_for @service, html: { class: '' } do |f|
+= simple_form_for @service do |f|
 
   = f.error_notification message: (f.object.errors.full_messages.join("<br />") )
 
