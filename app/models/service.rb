@@ -131,6 +131,10 @@ class Service < ApplicationRecord
     Service::SERVICES[service_type.to_sym]
   end
 
+  def external?
+    !hosted?
+  end
+
   protected
 
   def assign_default_service_type

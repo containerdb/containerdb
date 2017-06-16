@@ -34,7 +34,10 @@
           - else
             = "-"
         %td
-          %button.btn.btn-primary.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
+          - if (service.hosted? && service.container_id.present?) || service.external?
+            %button.btn.btn-primary.btn-xs{"data-target" => "#connection-#{service.id}", "data-toggle" => "modal", :type => "button"} Connect
+          - else
+            = '-'
 
 - else
   %p.alert.alert-info You have not launched any services yet
