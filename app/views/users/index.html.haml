@@ -6,12 +6,12 @@
 %table.table.table-striped
   %tr
     %th Email
-    %th Created
+    %th Signed Up
     %th Last Sign In
     %th Remove
   - @users.each do |user|
     %tr
       %td= user.email
-      %td= user.created_at
-      %td= user.last_sign_in_at || '-'
+      %td= user.created_at.strftime('%Y-%m-%d %H:%M')
+      %td= user.last_sign_in_at.try(:strftime, '%Y-%m-%d %H:%M') || '-'
       %td= link_to 'Remove', user_path(user), method: :delete, class: 'btn btn-danger btn-xs', data: { confirm: 'Are you sure?' }
