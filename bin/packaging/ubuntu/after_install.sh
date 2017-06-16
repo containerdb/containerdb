@@ -152,4 +152,4 @@ fi
 echo
 echo '...done'
 echo
-echo "Visit http://$($HOST_NAME)"
+echo "Visit http://$HOST_NAME"
