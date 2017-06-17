@@ -45,7 +45,7 @@ class Service < ApplicationRecord
 
   has_many :backups
   belongs_to :backup_storage_provider, class_name: 'StorageProvider', optional: true
-  belongs_to :machine
+  belongs_to :machine, optional: true
 
   def backup(inline: false)
     if inline
