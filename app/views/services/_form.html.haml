@@ -12,7 +12,7 @@
       = f.input :machine_id, collection: Machine.all, include_blank: false
     = f.input :hosted, as: :hidden
     = f.input :service_type, as: :hidden
-    = f.input :image, collection: @service.available_images, include_blank: false
+    = f.input :image, collection: @service.available_images, include_blank: false, label: 'Image/Version'
     = f.input :port
 
     %h1.lead Environment Variables
