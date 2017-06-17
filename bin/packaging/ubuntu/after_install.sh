@@ -89,7 +89,7 @@ if ! containerdb config:get DATABASE_URL 2>/dev/null; then
 
   # Scale up the app
   echo 'Starting Container DB'
-  sudo containerdb scale web=2 sidekiq=2
+  sudo containerdb scale web=2 sidekiq=2 clock=1
   sudo service containerdb restart
   echo
 
