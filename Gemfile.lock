@@ -48,6 +48,9 @@ GEM
       sass (>= 3.3.4)
     builder (3.2.3)
     byebug (9.0.6)
+    clockwork (2.0.0)
+      activesupport
+      tzinfo
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     devise (4.3.0)
@@ -212,6 +215,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   byebug
+  clockwork
   devise
   docker-api
   dotenv-rails
@@ -233,7 +237,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 2.3.4p301
+   ruby 2.3.3p222
 
 BUNDLED WITH
    1.15.1
