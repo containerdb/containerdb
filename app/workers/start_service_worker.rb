@@ -21,7 +21,7 @@ class StartServiceWorker
       'name' => container_name,
       'Image' => image.id,
       'Env' => service.container_env,
-      'ExposedPorts' => { "#{service.container_port}/tcp" => {} },
+      'ExposedPorts' => { "#{service.service.container_port}/tcp" => {} },
       'Volumes' => {service.service.data_directory => {}},
       'HostConfig' => {
         'Binds' => ["#{service.machine.data_directory}/containers/#{container_name}:#{service.service.data_directory}"],
