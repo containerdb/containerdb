@@ -13,11 +13,7 @@
       = render 'services/connect', service: service
       %tr
         %td= link_to service.name, edit_service_path(service)
-        %td
-          - if service.hosted?
-            = link_to (service.machine.try(:name) || '-'), edit_machine_path(service.machine)
-          - else
-            .text-muted external
+        %td= link_to (service.machine.try(:name) || '-'), edit_machine_path(service.machine)
         %td= service.service_type
         %td
           %em.text-muted
