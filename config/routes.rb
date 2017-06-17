@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :services do
-    resources :backups, only: [:create, :destroy]
+    resources :backups, only: [:create]
 
     collection do
       get :choose
