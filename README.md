@@ -32,11 +32,11 @@ Databases as a Service. Create databases instantly, with automatic backups. Perf
 - Backup external databases
 - User management
 - Multiple Docker hosts
+- Automated Backups (once a day at the moment)
 
 ### Roadmap
 
 - More databases (elasticsearch, rethinkdb, etc etc)
-- Automated Backups
 - Restore backups
 - Download backups
 - Database clusters (maybe - long term)
