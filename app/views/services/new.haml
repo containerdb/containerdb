@@ -2,4 +2,7 @@
 
 %h1.lead Create a #{@service.service_type.to_s.titleize} Service
 
+- if @service.service.publicly_accessible
+  %p.alert.alert-danger Warning: This service will be publicly accessible without any authentication. Please secure it with a firewall.
+
 = render 'form'

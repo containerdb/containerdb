@@ -22,6 +22,9 @@ class Service < ApplicationRecord
       'mysql:8.0.1',
       'mysql:5.6.36',
       'mysql:5.5.56',
+    ],
+    memsql: [
+      'memsql/quickstart:6.0.13'
     ]
   }
 

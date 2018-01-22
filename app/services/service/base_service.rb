@@ -25,6 +25,10 @@ class Service::BaseService
   alias_method :backup_script_path,               :not_implemented!
   alias_method :backup_file_suffix,               :not_implemented!
 
+  def publicly_accessible
+    false
+  end
+
   def backup_file_name
     "#{service.host}_#{service.service_type}_#{service.name.parameterize}_#{Time.now.to_i}.#{backup_file_suffix}"
   end
