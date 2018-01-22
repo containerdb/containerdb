@@ -25,6 +25,9 @@ class Service < ApplicationRecord
     ],
     memsql: [
       'memsql/quickstart:6.0.13'
+    ],
+    elasticsearch: [
+      'docker.elastic.co/elasticsearch/elasticsearch-platinum:6.1.2'
     ]
   }
 
