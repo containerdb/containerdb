@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Default to 2.3.4 but allow override for development
-ruby File.exist?('.ruby-version') ? File.read('.ruby-version') : '2.3.4'
+ruby File.exist?('.ruby-version') ? File.read('.ruby-version') : '2.4.3'
 
 gem 'rails', '~> 5.1.1'
 
